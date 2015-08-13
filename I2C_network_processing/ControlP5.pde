@@ -3,10 +3,12 @@ void customize( DropdownList ddl ) {
   ddl.setBackgroundColor( 255 );
   ddl.setItemHeight( 25 );
   ddl.setBarHeight( 20 );
-  ddl.captionLabel().set( "USB Port" );
-  ddl.captionLabel().style().marginTop = 3;
-  ddl.captionLabel().style().marginLeft = 3;
-  ddl.valueLabel().style().marginTop = 3;
+  ddl.setCaptionLabel( " USB Port " );
+  ddl.setBarHeight( 25 ); //test
+
+  // ddl.captionLabel().style().marginTop = 3; // bug with processing 3.*
+  // ddl.captionLabel().style().marginLeft = 3; // bug with processing 3.*
+  // ddl.valueLabel().style().marginTop = 3; // bug with processing 3.*
   
   for ( int i=0; i<Serial.list ().length; i++ ) {
     String portName = Serial.list()[ i ];
@@ -22,12 +24,11 @@ void controlEvent( ControlEvent theEvent ) {
   int portValue = 0;
   String USB_PORT = "";
 
-  // TODO add tray catch
-  if ( theEvent.isGroup() ) {
-    portValue = ( int ) theEvent.group().value();
+  if ( theEvent.isController() ) {
+    portValue = (int) theEvent.controller().getValue();
     USB_PORT = Serial.list()[ portValue ];
 
-    if ( DISPLAY_MENU ) {  
+    if ( DISPLAY_MENU ) {
       try {
         myPort = new Serial( this, USB_PORT, BAUD_RATE );
         DISPLAY_MENU = false;
@@ -46,4 +47,3 @@ void controlEvent( ControlEvent theEvent ) {
     }
   }
 }
-

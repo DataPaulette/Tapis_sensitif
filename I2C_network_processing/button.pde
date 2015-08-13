@@ -89,10 +89,13 @@ class sensorMatrix {
         case 'P':
           if ( storedValue[ id ][ idX ][ idY ] >= THRESHOLD && toggle[ idX ][ idY ] == false ) {
             toggle[ idX ][ idY ] = true;
-            println ( "PLAY " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ]  );
+            println ( "PLAY " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ] + " ON");
+            // if ( MIDI ) myBus.sendNoteOn( channel, pitch, velocity ); // Send a Midi noteOn
           }
           if ( storedValue[ id ][ idX ][ idY ] < THRESHOLD && toggle[ idX ][ idY ] == true ) {
             toggle[ idX ][ idY ] = false;
+            println ( "PLAY " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ] + " OFF");
+            // if ( MIDI ) myBus.sendNoteOff( channel, pitch, velocity ); // Send a Midi nodeOff
           }
           break;
         }
@@ -268,4 +271,3 @@ void howTo() {
   text( "Save topography : shift + S", Xpos, Ypos + 4*vSpace );
   text( "Load topography : shift + L", Xpos, Ypos + 5*vSpace );
 }
-

@@ -1,9 +1,11 @@
 import processing.serial.*;
+import themidibus.*;
 import controlP5.*;
 
-Serial myPort;
-ControlP5 controlP5;     // Create object from menu class
-DropdownList p1;         // Create object from menu class
+Serial               myPort;        // Create object from menu class
+ControlP5            cp5;           // Create object from menu class
+DropdownList         p1;            // Create object from menu class
+MidiBus              myBus;         // Create object from menu class
 
 int X_SCREN_SIZE =   0;
 int Y_SCREN_SIZE =   0;
@@ -47,15 +49,17 @@ boolean DEBUG_SENSOR_ID = false;
 boolean DEBUG_SENSOR_POS = false;
 boolean DEBUG_SWITCH = false;
 boolean DEBUG_CONFIG = true;
+boolean MIDI = true;
 
 /////////////////////////////////////////////// SETUP
 void setup() {
   
-  frame.setTitle( "sensFlore by DATAPAULETTE" );
+  surface.setTitle( "Tapis Sensitif by DATAPAULETTE" );
   codeSetup();
   
   X_SCREN_SIZE = X_MATRIX*COLS*PIX_SIZE + X_MATRIX*( COLS-1 )*PADDING + ( X_MATRIX-1 )*MARGIN + OFFSET;
   Y_SCREN_SIZE = Y_MATRIX*ROWS*PIX_SIZE + Y_MATRIX*( ROWS-1 )*PADDING + ( Y_MATRIX-1 )*MARGIN + OFFSET;
+  
   selector.setPos( 10, 3 );
 
   // Setup the save file
@@ -67,14 +71,17 @@ void setup() {
 
   DEVICES = X_MATRIX * Y_MATRIX;
 
-  size( X_SCREN_SIZE, Y_SCREN_SIZE );
+  // size( X_SCREN_SIZE, Y_SCREN_SIZE );
+  size( 800, 600 );
 
   font = createFont( "arial", PIX_SIZE/2 );
   frameRate( 20 );
   textFont( font );
 
-  controlP5 = new ControlP5( this );
-  p1 = controlP5.addDropdownList( "myList-p1", X_SCREN_SIZE - menuXsize, 24, menuXsize, 127 );
+  cp5 = new ControlP5( this );
+  
+  p1 = cp5.addDropdownList( "myList-p1", X_SCREN_SIZE - menuXsize, 24, menuXsize, 127 );
+  
   customize( p1 );
 
   sMatrix = new sensorMatrix[ DEVICES ]; // Tableau de matrices de capteurs
@@ -82,6 +89,10 @@ void setup() {
   for ( int id=0; id<DEVICES; id++ ) {
     sMatrix[ id ] = new sensorMatrix( id );
   }
+  
+  if ( MIDI ) MidiBus.list(); // List all available Midi devices on STDOUT. This will show each device's index and name.
+  // if ( MIDI ) myBus = new MidiBus(this, -1, "Java Sound Synthesizer"); // Create a new MidiBus with no input device and the default Java Sound Synthesizer as the output device.
+
 }
 
 /////////////////// LOOP
@@ -135,4 +146,3 @@ void keyPressed() {
     save( FILE );
   }
 }
-
