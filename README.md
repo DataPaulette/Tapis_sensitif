@@ -17,6 +17,7 @@ This folder include the Eagle source code of the electronic board made for the p
 http://www.cadsoftusa.com/download-eagle/
 
 #/Tapis_sensitif/I2C_44_matrix_MASTER/
+https://www.arduino.cc/en/Main/Software
 This folder include the Arduino code for the master device plugged on a computer via USB port.
 
 #/Tapis_sensitif/I2C_44_matrix_SLAVE/

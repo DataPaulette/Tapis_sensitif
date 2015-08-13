@@ -16,19 +16,25 @@
 #define  LED_PIN           13
 #define  I2C_SLAVE_START   33
 #define  FRAME_RATE        30
+#define  DIL_SWITCH        7
+
 
 byte incomingByte = 0;
 byte nodePayload[ PAYLOAD_SIZE ];
 
+// digital pins array
+const int dilSwitch[ DIL_SWITCH ] = {
+  10, 11, 12, 2, 3, 4, 5
+};
+
 // Dig pins array
 const int rowPins[ ROWS ] = {
-  10, 11, 12
+  6, 7, 8
 };
 
 // Analog pins array
 const int columnPins[ COLS ] = {
-  A0, A1, A2
-};
+  A1, A2, A3 };
 
 unsigned long lastFrameTime = 0;
 int value = 0;
@@ -47,8 +53,13 @@ void setup() {
   if ( !USB_TRANSMIT ) Wire.onRequest( requestEvent );     // register event
 
   for ( int i = 0; i < ROWS; i++ ) {
-    pinMode( rowPins[ROWS], INPUT );    // Set rows pins in high-impedance state
+    pinMode( rowPins[ i ], INPUT );    // Set rows pins in high-impedance state
   }
+  
+  for ( int i = 0; i < DIL_SWITCH; i++ ) {
+    pinMode( dilSwitch[ i ], INPUT_PULLUP ); // Set dilSwitch pins as input and activate pullUps resistors
+  }
+  
   blinkBlink( 15 );
 }
 

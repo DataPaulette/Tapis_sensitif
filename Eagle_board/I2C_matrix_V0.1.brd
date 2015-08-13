@@ -146,7 +146,7 @@
 <wire x1="0" y1="0" x2="49.8475" y2="0" width="0.002540625" layer="20"/>
 <dimension x1="0" y1="0" x2="49.8475" y2="0" x3="24.92375" y3="-3.81" textsize="1.778" layer="20"/>
 <dimension x1="0" y1="0" x2="0" y2="49.8475" x3="-4.445" y3="24.92375" textsize="1.778" layer="1"/>
-<text x="21.59" y="2.54" size="2.54" layer="1" font="vector" ratio="15" rot="R45">DATAPAULETTE</text>
+<text x="18.7325" y="1.5875" size="2.54" layer="121" font="vector" ratio="15" rot="R45">DATAPAULETTE</text>
 <text x="8.89" y="46.99" size="1.27" layer="16" font="vector" ratio="15" rot="MR0">VCC</text>
 <text x="8.89" y="44.45" size="1.27" layer="16" font="vector" ratio="15" rot="MR0">GND</text>
 <text x="8.89" y="41.91" size="1.27" layer="16" font="vector" ratio="15" rot="MR0">SDA</text>
@@ -158,6 +158,16 @@
 <hole x="2.54" y="47.3075" drill="3.2"/>
 <hole x="2.54" y="2.54" drill="3.2"/>
 <hole x="47.3075" y="2.54" drill="3.2"/>
+<text x="33.655" y="13.0175" size="1.778" layer="121" font="vector" ratio="15" rot="R45">Tapis Sensitif</text>
+<text x="11.7475" y="34.29" size="1.27" layer="121" font="vector" ratio="13">A0</text>
+<text x="11.7475" y="31.75" size="1.27" layer="121" font="vector" ratio="13">A1</text>
+<text x="11.7475" y="29.21" size="1.27" layer="121" font="vector" ratio="13">A2</text>
+<text x="11.7475" y="26.67" size="1.27" layer="121" font="vector" ratio="13">A3</text>
+<text x="28.8925" y="8.5725" size="1.27" layer="121" font="vector" ratio="13" rot="R90">D6</text>
+<text x="31.4325" y="8.5725" size="1.27" layer="121" font="vector" ratio="13" rot="R90">D7</text>
+<text x="33.9725" y="8.5725" size="1.27" layer="121" font="vector" ratio="13" rot="R90">D8</text>
+<text x="36.5125" y="8.5725" size="1.27" layer="121" font="vector" ratio="13" rot="R90">D9</text>
+<text x="35.8775" y="11.43" size="1.778" layer="121" font="vector" ratio="15" rot="R45">V0.1</text>
 </plain>
 <libraries>
 <library name="SparkFun-Boards">
@@ -762,8 +772,7 @@ design rules under a new name.</description>
 <via x="4.445" y="24.765" extent="1-16" drill="0.5" diameter="1.27"/>
 <via x="5.08" y="5.08" extent="1-16" drill="0.5" diameter="1.27"/>
 <wire x1="5.08" y1="5.08" x2="8.89" y2="8.89" width="0" layer="19" extent="1-1"/>
-<wire x1="4.445" y1="24.765" x2="8.89" y2="8.89" width="0" layer="19" extent="1-1"/>
-<wire x1="10.16" y1="37.465" x2="4.445" y2="24.765" width="0" layer="19" extent="1-1"/>
+<wire x1="4.445" y1="24.765" x2="10.16" y2="37.465" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="SDA">
 <contactref element="JP2" pad="3"/>
