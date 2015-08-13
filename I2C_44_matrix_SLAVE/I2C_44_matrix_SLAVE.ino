@@ -8,7 +8,6 @@
 #include <Wire.h>
 
 #define  BAUD_RATE         115200
-#define  NODE_ADDRESS      0 // Change this unique address for each I2C slave node
 
 #define  ROWS              3
 #define  COLS              3
@@ -18,6 +17,7 @@
 #define  FRAME_RATE        30
 #define  DIL_SWITCH        7
 
+byte  NODE_ADDRESS  =      0;  // set a unique address for each I2C slave node
 
 byte incomingByte = 0;
 byte nodePayload[ PAYLOAD_SIZE ];
@@ -34,7 +34,8 @@ const int rowPins[ ROWS ] = {
 
 // Analog pins array
 const int columnPins[ COLS ] = {
-  A1, A2, A3 };
+  A1, A2, A3
+};
 
 unsigned long lastFrameTime = 0;
 int value = 0;
@@ -42,6 +43,7 @@ int value = 0;
 boolean RUN = false;
 boolean toggleLed = false;
 boolean USB_TRANSMIT = false;
+boolean DEBUG_NODE_ADDRESS = false;
 
 /////////////////////// INITIALISATION
 void setup() {
@@ -55,11 +57,13 @@ void setup() {
   for ( int i = 0; i < ROWS; i++ ) {
     pinMode( rowPins[ i ], INPUT );    // Set rows pins in high-impedance state
   }
-  
+
   for ( int i = 0; i < DIL_SWITCH; i++ ) {
     pinMode( dilSwitch[ i ], INPUT_PULLUP ); // Set dilSwitch pins as input and activate pullUps resistors
   }
-  
+
+  setNodeID();
+
   blinkBlink( 15 );
 }
 
@@ -117,3 +121,19 @@ void blinkBlink( int times ) {
   }
 }
 
+
+void setNodeID() {
+
+  for ( int i = 0; i < DIL_SWITCH; i++) {
+
+    int bitVal = digitalRead( dilSwitch[ i ] );
+
+    if ( bitVal == HIGH) {
+      bitClear( NODE_ADDRESS, i );
+
+    } else {
+      bitSet( NODE_ADDRESS, i );
+    }
+  }
+  if ( DEBUG_NODE_ADDRESS ) Serial.println( NODE_ADDRESS );
+}
