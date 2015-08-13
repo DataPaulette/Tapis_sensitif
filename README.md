@@ -1,5 +1,4 @@
-# Tapis_sensitif
-
+# /Tapis_sensitif/
  - Date : 13/08/2015
  - Project : http://datapaulette.org/Tapis_sensitif/
  - Repository : https://github.com/DataPaulette/Tapis_sensitif/
@@ -10,8 +9,8 @@ This project is under construction, all codes are work in progress.
 This folder include à processing sketch allowing mapping to trigger MIDI notes.
 
 The following contributed libraries are needed
-	- import themidibus.*;
-	- import controlP5.*;
+ - theMidiBus
+ - controlP5
 
 #/Tapis_sensitif/Eagle_board/
 This folder include thé source code of thé electronic board made for thé project.
