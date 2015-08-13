@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<CODES>
+	<code  X_MATRIX="8"> </code>
+	<code  Y_MATRIX="5"> </code>
+	<code  PIX_SIZE="30"> </code>
+	<code  PADDING="3"> </code>
+	<code  MARGIN="20"> </code>
+	<code  OFFSET="30"> </code>
+	<code  THRESHOLD="600"> </code>
+	<code  FILE="saved_2_2.csv"> </code>
+</CODES>
+
