@@ -1,10 +1,10 @@
+
 ////////// Customiz the menu
 void customize( DropdownList ddl ) {
   ddl.setBackgroundColor( 255 );
+  ddl.setBarHeight( 25 ); // test
   ddl.setItemHeight( 25 );
-  ddl.setBarHeight( 20 );
   ddl.setCaptionLabel( " USB Port " );
-  ddl.setBarHeight( 25 ); //test
 
   // ddl.captionLabel().style().marginTop = 3; // bug with processing 3.*
   // ddl.captionLabel().style().marginLeft = 3; // bug with processing 3.*
@@ -14,8 +14,8 @@ void customize( DropdownList ddl ) {
     String portName = Serial.list()[ i ];
     ddl.addItem( portName, i );
   }
-  ddl.setColorBackground( 50 );
-  ddl.setColorActive( color( 255 ) );
+  // ddl.setColorBackground( 50 );
+  // ddl.setColorActive( color( 255 ) );
 }
 
 ////////// Get the port number 
@@ -25,7 +25,7 @@ void controlEvent( ControlEvent theEvent ) {
   String USB_PORT = "";
 
   if ( theEvent.isController() ) {
-    portValue = (int) theEvent.controller().getValue();
+    portValue = ( int ) theEvent.controller().getValue();
     USB_PORT = Serial.list()[ portValue ];
 
     if ( DISPLAY_MENU ) {
@@ -41,8 +41,8 @@ void controlEvent( ControlEvent theEvent ) {
         fill( 255, 0, 0 );
         textAlign( CENTER );
         textSize( X_SCREN_SIZE/8 );
-        text( "WRONG USB", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
-        println( "WRONG USB" );
+        text("WRONG USB", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
+        println( portValue + " WRONG USB" );
       }
     }
   }
