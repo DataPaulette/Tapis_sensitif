@@ -89,7 +89,7 @@ void setup() {
   p2 = cp5.addDropdownList( "midiPort", X_SCREN_SIZE - menuXsize*2, 24, menuXsize, 127 );
   String[] available_output = MidiBus.availableOutputs(); //Returns an array of available input devices
   for ( int i=0; i<available_output.length; i++ ) {
-    String portName = available_output[i];
+    String portName = available_output[ i ];
     p2.addItem( portName, i );
   }
   customize( p2, "MIDI PORT" );

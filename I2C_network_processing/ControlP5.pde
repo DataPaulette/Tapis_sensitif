@@ -11,8 +11,8 @@ void customize( DropdownList ddl, String name ) {
 void controlEvent( ControlEvent theEvent ) {
   int BAUD_RATE = 115200;
   int portValue = 0;
-  String USB_PORT = "";
-  String MIDI_PORT = "";
+  String USB_PORT = "-1";
+  String MIDI_PORT = "-1";
 
   if ( theEvent.isController() ) {
 
@@ -27,6 +27,7 @@ void controlEvent( ControlEvent theEvent ) {
           DISPLAY_MENU = false;
           println( "USB_DEVICES : " + DEVICES );
           myPort.write( DEVICES );
+          p1.setBackgroundColor( 0 );
           // load( FILE ); // BUGGED
         } 
         catch ( Exception e ) {
@@ -43,17 +44,15 @@ void controlEvent( ControlEvent theEvent ) {
     //////////////////////////////////////////////////////////// MIDI PORT
     if ( theEvent.controller().getName() == "midiPort" ) {
       portValue = ( int ) theEvent.controller().getValue();
-      // MIDI_PORT = MidiBus.list()[ portValue ];
+      MIDI_PORT = MidiBus.availableOutputs()[ portValue ];
 
       if ( DISPLAY_MENU ) {
         try {
-          myBus = new MidiBus( this, -1, MIDI_PORT ); // Create a new MidiBus with no input device and the default Java Sound Synthesizer as the output device.
-          // DISPLAY_MENU = false;
+          myBus = new MidiBus( this, -1, MIDI_PORT ); // Create a new MidiBus with no input device and one output device.
           println( "MIDI_DEVICES : " + DEVICES );
-          myPort.write( DEVICES );
-        } 
+          p2.setBackgroundColor( 0 );
+        }
         catch ( Exception e ) {
-          // DISPLAY_MENU = true;
           fill( 255, 0, 0 );
           textAlign( CENTER );
           textSize( X_SCREN_SIZE/8 );
