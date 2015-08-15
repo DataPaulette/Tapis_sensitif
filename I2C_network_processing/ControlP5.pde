@@ -12,9 +12,11 @@ void controlEvent( ControlEvent theEvent ) {
   int BAUD_RATE = 115200;
   int portValue = 0;
   String USB_PORT = "";
+  String MIDI_PORT = "";
 
   if ( theEvent.isController() ) {
 
+    //////////////////////////////////////////////////////////// USB PORT
     if ( theEvent.controller().getName() == "usbPort" ) {
       portValue = ( int ) theEvent.controller().getValue();
       USB_PORT = Serial.list()[ portValue ];
@@ -23,7 +25,7 @@ void controlEvent( ControlEvent theEvent ) {
         try {
           myPort = new Serial( this, USB_PORT, BAUD_RATE );
           DISPLAY_MENU = false;
-          println( "DEVICES : " + DEVICES );
+          println( "USB_DEVICES : " + DEVICES );
           myPort.write( DEVICES );
           // load( FILE ); // BUGGED
         } 
@@ -33,11 +35,32 @@ void controlEvent( ControlEvent theEvent ) {
           textAlign( CENTER );
           textSize( X_SCREN_SIZE/8 );
           text("WRONG USB", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
-          println( portValue + " WRONG USB" );
+          println( portValue + " WRONG USB PORT" );
         }
       }
     }
+
+    //////////////////////////////////////////////////////////// MIDI PORT
     if ( theEvent.controller().getName() == "midiPort" ) {
+      portValue = ( int ) theEvent.controller().getValue();
+      // MIDI_PORT = MidiBus.list()[ portValue ];
+
+      if ( DISPLAY_MENU ) {
+        try {
+          myBus = new MidiBus( this, -1, MIDI_PORT ); // Create a new MidiBus with no input device and the default Java Sound Synthesizer as the output device.
+          // DISPLAY_MENU = false;
+          println( "MIDI_DEVICES : " + DEVICES );
+          myPort.write( DEVICES );
+        } 
+        catch ( Exception e ) {
+          // DISPLAY_MENU = true;
+          fill( 255, 0, 0 );
+          textAlign( CENTER );
+          textSize( X_SCREN_SIZE/8 );
+          text("WRONG MIDI", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
+          println( portValue + " WRONG MIDI PORT" );
+        }
+      }
     }
   }
 }

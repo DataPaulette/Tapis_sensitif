@@ -94,8 +94,6 @@ void setup() {
   }
   customize( p2, "MIDI PORT" );
   
-  // if ( MIDI ) myBus = new MidiBus(this, -1, "Java Sound Synthesizer"); // Create a new MidiBus with no input device and the default Java Sound Synthesizer as the output device.
-
   sMatrix = new sensorMatrix[ DEVICES ]; // Tableau de matrices de capteurs
 
   for ( int id=0; id<DEVICES; id++ ) {
