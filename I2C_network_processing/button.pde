@@ -265,9 +265,10 @@ void howTo() {
   textSize( 16 );
   textAlign( LEFT );
   text( "Select the USB port", Xpos, Ypos + 0*vSpace );
-  text( "Display this help : shift + H", Xpos, Ypos + 1*vSpace );
-  text( "Record mode : shift + R", Xpos, Ypos + 2*vSpace );
-  text( "Play mode : shift + P", Xpos, Ypos + 3*vSpace );
-  text( "Save topography : shift + S", Xpos, Ypos + 4*vSpace );
-  text( "Load topography : shift + L", Xpos, Ypos + 5*vSpace );
+  text( "Select the MIDI port", Xpos, Ypos + 1*vSpace );
+  text( "Display this help : shift + H", Xpos, Ypos + 2*vSpace );
+  text( "Record mode : shift + R", Xpos, Ypos + 3*vSpace );
+  text( "Play mode : shift + P", Xpos, Ypos + 4*vSpace );
+  text( "Save topography : shift + S", Xpos, Ypos + 5*vSpace );
+  text( "Load topography : shift + L", Xpos, Ypos + 6*vSpace );
 }

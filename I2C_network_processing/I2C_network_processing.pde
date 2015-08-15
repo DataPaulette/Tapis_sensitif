@@ -4,7 +4,8 @@ import controlP5.*;
 
 Serial               myPort;        // Create object from menu class
 ControlP5            cp5;           // Create object from menu class
-DropdownList         p1;            // Create object from menu class
+DropdownList         p1; 
+DropdownList         p2;            // Create object from menu class
 MidiBus              myBus;         // Create object from menu class
 
 int X_SCREN_SIZE =   0;
@@ -53,12 +54,13 @@ boolean MIDI = true;
 
 /////////////////////////////////////////////// SETUP
 void setup() {
-  
+
   surface.setTitle( "Tapis Sensitif by DATAPAULETTE" );
   codeSetup();
-  
+
   X_SCREN_SIZE = X_MATRIX*COLS*PIX_SIZE + X_MATRIX*( COLS-1 )*PADDING + ( X_MATRIX-1 )*MARGIN + OFFSET;
   Y_SCREN_SIZE = Y_MATRIX*ROWS*PIX_SIZE + Y_MATRIX*( ROWS-1 )*PADDING + ( Y_MATRIX-1 )*MARGIN + OFFSET;
+  surface.setSize( X_SCREN_SIZE, Y_SCREN_SIZE );
   
   selector.setPos( 10, 3 );
 
@@ -71,27 +73,34 @@ void setup() {
 
   DEVICES = X_MATRIX * Y_MATRIX;
 
-  // size( X_SCREN_SIZE, Y_SCREN_SIZE );
-  size( 800, 600 );
-
   font = createFont( "arial", PIX_SIZE/2 );
   frameRate( 20 );
   textFont( font );
 
   cp5 = new ControlP5( this );
+
+  p1 = cp5.addDropdownList( "usbPort", X_SCREN_SIZE - menuXsize, 24, menuXsize, 127 );
+  for ( int i=0; i<Serial.list().length; i++ ) {
+    String portName = Serial.list()[ i ];
+    p1.addItem( portName, i );
+  }
+  customize( p1, "USB PORT" );
+
+  p2 = cp5.addDropdownList( "midiPort", X_SCREN_SIZE - menuXsize*2, 24, menuXsize, 127 );
+  String[] available_output = MidiBus.availableOutputs(); //Returns an array of available input devices
+  for ( int i=0; i<available_output.length; i++ ) {
+    String portName = available_output[i];
+    p2.addItem( portName, i );
+  }
+  customize( p2, "MIDI PORT" );
   
-  p1 = cp5.addDropdownList( "myList-p1", X_SCREN_SIZE - menuXsize, 24, menuXsize, 127 );
-  
-  customize( p1 );
+  // if ( MIDI ) myBus = new MidiBus(this, -1, "Java Sound Synthesizer"); // Create a new MidiBus with no input device and the default Java Sound Synthesizer as the output device.
 
   sMatrix = new sensorMatrix[ DEVICES ]; // Tableau de matrices de capteurs
 
   for ( int id=0; id<DEVICES; id++ ) {
     sMatrix[ id ] = new sensorMatrix( id );
   }
-  
-  if ( MIDI ) MidiBus.list(); // List all available Midi devices on STDOUT. This will show each device's index and name.
-  // if ( MIDI ) myBus = new MidiBus(this, -1, "Java Sound Synthesizer"); // Create a new MidiBus with no input device and the default Java Sound Synthesizer as the output device.
 
 }
 
@@ -103,7 +112,7 @@ void draw() {
     howTo();
   } else {
     p1.hide();
-    
+
     if ( MODE == 'R' ) background( 10, 0, 0 );
     if ( MODE == 'P' ) background( 10, 255, 30 );
 
@@ -116,7 +125,7 @@ void draw() {
 }
 
 void mousePressed() {
-  
+
   int mX = mouseX;
   int mY = mouseY;
 
@@ -129,7 +138,7 @@ void mousePressed() {
 }
 
 void keyPressed() {
-  
+
   if ( key == 'H' ) { // Display the help menu
     DISPLAY_MENU = !DISPLAY_MENU;
   }
