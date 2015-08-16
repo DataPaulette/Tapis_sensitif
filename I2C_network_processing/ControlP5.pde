@@ -7,11 +7,11 @@ void customize( DropdownList ddl ) {
 
   ddl.setBarHeight( itemHeight );
   ddl.setItemHeight( itemHeight );
-  // ddl.setBackgroundColor( 0 );
 
   if ( ddl == p1 ) {
+    ddl.setPosition( X_SCREN_SIZE - menuXsize, 0);
     ddl.setCaptionLabel( "USB PORT" );
-    for ( int i=0; i<Serial.list().length; i++ ) {
+    for ( int i=0; i<Serial.list ().length; i++ ) {
       String portName = Serial.list()[ i ];
       p1.addItem( portName, i );
     }
@@ -19,6 +19,7 @@ void customize( DropdownList ddl ) {
   }
 
   if ( ddl == p2 ) {
+    ddl.setPosition( X_SCREN_SIZE - menuXsize*2, 0);
     ddl.setCaptionLabel( "MIDI PORT" );
     available_output = MidiBus.availableOutputs(); //Returns an array of available input devices
     for ( int i=0; i<available_output.length; i++ ) {
@@ -27,7 +28,8 @@ void customize( DropdownList ddl ) {
     }
     ddl.setSize( itemWidth, available_output.length * itemHeight + itemHeight );  //
   }
-
+  ddl.setBackgroundColor( color(10, 15, 0) );
+  ddl.setColorBackground( color(100, 105, 100) );
   ddl.close();
 }
 
@@ -35,8 +37,8 @@ void customize( DropdownList ddl ) {
 void controlEvent( ControlEvent theEvent ) {
   int BAUD_RATE = 115200;
   int portValue = 0;
-  String USB_PORT = "-1";
-  String MIDI_PORT = "-1";
+  String USB_PORT = "none";
+  String MIDI_PORT = "none";
 
   if ( theEvent.isController() ) {
 
@@ -48,19 +50,18 @@ void controlEvent( ControlEvent theEvent ) {
       if ( DISPLAY_MENU ) {
         try {
           myPort = new Serial( this, USB_PORT, BAUD_RATE );
-          DISPLAY_MENU = false;
-          println( "USB_DEVICES : " + DEVICES );
+          println( "USB_DEVICES : " + USB_PORT );
           myPort.write( DEVICES );
-          p1.setBackgroundColor( 0 );
+          p1.setColorBackground( color(10, 255, 0) );
           // load( FILE ); // BUGGED
         } 
         catch ( Exception e ) {
-          DISPLAY_MENU = true;
           fill( 255, 0, 0 );
           textAlign( CENTER );
           textSize( X_SCREN_SIZE/8 );
           text("WRONG USB", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
-          println( portValue + " WRONG USB PORT" );
+          println( "WRONG USB PORT : " + USB_PORT );
+          p1.setColorBackground( color(255, 105, 100) );
         }
       }
     }
@@ -68,22 +69,24 @@ void controlEvent( ControlEvent theEvent ) {
     //////////////////////////////////////////////////////////// MIDI PORT
     if ( theEvent.controller().getName() == "midiPort" ) {
       portValue = ( int ) theEvent.controller().getValue();
-      MIDI_PORT = MidiBus.availableOutputs()[ portValue ];
+      MIDI_PORT = MidiBus.availableInputs()[ portValue ];
 
       if ( DISPLAY_MENU ) {
         try {
           myBus = new MidiBus( this, -1, MIDI_PORT ); // Create a new MidiBus with no input device and one output device.
-          println( "MIDI_DEVICES : " + DEVICES );
-          p2.setBackgroundColor( 0 );
+          println( "MIDI_DEVICES : " + MIDI_PORT );
+          p2.setColorBackground( color(10, 255, 0) );
         }
         catch ( Exception e ) {
           fill( 255, 0, 0 );
           textAlign( CENTER );
           textSize( X_SCREN_SIZE/8 );
-          text("WRONG MIDI", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
-          println( portValue + " WRONG MIDI PORT" );
+          text( "WRONG MIDI", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
+          println( "WRONG MIDI PORT : " + MIDI_PORT );
+          p2.setColorBackground( color(255, 105, 100) );
         }
       }
     }
   }
 }
+

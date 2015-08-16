@@ -90,12 +90,16 @@ class sensorMatrix {
           if ( storedValue[ id ][ idX ][ idY ] >= THRESHOLD && toggle[ idX ][ idY ] == false ) {
             toggle[ idX ][ idY ] = true;
             println ( "PLAY " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ] + " ON");
-            // if ( MIDI ) myBus.sendNoteOn( channel, pitch, velocity ); // Send a Midi noteOn
+            if ( label[ idX ][ idY ] != -1 ) {
+              myBus.sendNoteOn( 1, label[ idX ][ idY ], 127 ); // Send a Midi noteOn
+            }
           }
           if ( storedValue[ id ][ idX ][ idY ] < THRESHOLD && toggle[ idX ][ idY ] == true ) {
             toggle[ idX ][ idY ] = false;
             println ( "PLAY " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ] + " OFF");
-            // if ( MIDI ) myBus.sendNoteOff( channel, pitch, velocity ); // Send a Midi nodeOff
+            if ( label[ idX ][ idY ] != -1 ) {
+              myBus.sendNoteOn( 1, label[ idX ][ idY ], 0 ); // Send a Midi noteOn
+            }
           }
           break;
         }
@@ -244,6 +248,8 @@ void rec() {
 /////////////////////////////////////////////////////////
 void play() {
   MODE = 'P';
+  p1.hide();
+  p2.hide();
   fill( 255, 0, 0 );
   textSize( X_SCREN_SIZE/4 );
   textAlign( CENTER );
@@ -255,7 +261,8 @@ void howTo() {
   int Xpos = X_SCREN_SIZE/4;
   int Ypos = Y_SCREN_SIZE/3;
   int vSpace = 25;
-
+  p1.show();
+  p2.show();
   noStroke();
   rectMode( CENTER );
   fill( 255, 255, 255, 50 );
@@ -271,3 +278,4 @@ void howTo() {
   text( "Save topography : shift + S", Xpos, Ypos + 5*vSpace );
   text( "Load topography : shift + L", Xpos, Ypos + 6*vSpace );
 }
+

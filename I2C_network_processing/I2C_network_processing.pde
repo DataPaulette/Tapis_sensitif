@@ -49,18 +49,19 @@ boolean DEBUG_SENSOR_VALUES = false;
 boolean DEBUG_SENSOR_ID = false;
 boolean DEBUG_SENSOR_POS = false;
 boolean DEBUG_SWITCH = false;
-boolean DEBUG_CONFIG = true;
+boolean DEBUG_CONFIG = false;
 boolean MIDI = true;
 
 /////////////////////////////////////////////// SETUP
 void setup() {
 
-  surface.setTitle( "Tapis Sensitif by DATAPAULETTE" );
+  size(800, 600);
+  // surface.setTitle( "Tapis Sensitif by DATAPAULETTE" );
   codeSetup(); // Read values from XML config file  
 
   X_SCREN_SIZE = X_MATRIX*COLS*PIX_SIZE + X_MATRIX*( COLS-1 )*PADDING + ( X_MATRIX-1 )*MARGIN + OFFSET;
   Y_SCREN_SIZE = Y_MATRIX*ROWS*PIX_SIZE + Y_MATRIX*( ROWS-1 )*PADDING + ( Y_MATRIX-1 )*MARGIN + OFFSET;
-  surface.setSize( X_SCREN_SIZE, Y_SCREN_SIZE );
+  // surface.setSize( X_SCREN_SIZE, Y_SCREN_SIZE );
   
   selector.setPos( 10, 3 );
 
@@ -78,11 +79,9 @@ void setup() {
   textFont( font );
 
   cp5 = new ControlP5( this );
-
-  p1 = cp5.addDropdownList( "usbPort", X_SCREN_SIZE - menuXsize, 24, menuXsize, 127 );
+  p1 = cp5.addDropdownList( "usbPort" );
   customize( p1 );
-
-  p2 = cp5.addDropdownList( "midiPort", X_SCREN_SIZE - menuXsize*2, 24, menuXsize, 127 );
+  p2 = cp5.addDropdownList( "midiPort" );
   customize( p2 );
   
   sMatrix = new sensorMatrix[ DEVICES ]; // Tableau de matrices de capteurs
@@ -100,7 +99,6 @@ void draw() {
     background( 200 );
     howTo();
   } else {
-    // p1.hide();
 
     if ( MODE == 'R' ) background( 10, 0, 0 );
     if ( MODE == 'P' ) background( 10, 255, 30 );

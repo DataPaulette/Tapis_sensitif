@@ -40,16 +40,6 @@ void codeSetup() {
       FILE = children[ i ].getString( "FILE" );
       if ( DEBUG_CONFIG ) println( "FILE : " + FILE );
       break;
-      /*
-    case 8: 
-       X_SCREN_SIZE = children[ i ].getInt( "X_SCREN_SIZE" );
-       if ( DEBUG_CONFIG ) println( "X_SCREN_SIZE : " + X_SCREN_SIZE );
-       break;
-       case 9: 
-       Y_SCREN_SIZE = children[ i ].getInt( "Y_SCREN_SIZE" );
-       if ( DEBUG_CONFIG ) println( "Y_SCREN_SIZE : " + Y_SCREN_SIZE );
-       break;
-       */
     }
   }
 }
