@@ -259,8 +259,7 @@ void howTo() {
   noStroke();
   rectMode( CENTER );
   fill( 255, 255, 255, 50 );
-  rect( X_SCREN_SIZE/2, Y_SCREN_SIZE/2, 300, 300, 10 );
-
+  rect( Xpos*1.5, Ypos*1.5, 300, 300, 10 );
   fill( 100 );
   textSize( 16 );
   textAlign( LEFT );

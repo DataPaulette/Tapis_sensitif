@@ -1,10 +1,33 @@
 
 ////////// Customiz the menu
-void customize( DropdownList ddl, String name ) {
-  ddl.setBackgroundColor( 255 );
-  ddl.setBarHeight( 25 ); // test
-  ddl.setItemHeight( 25 );
-  ddl.setCaptionLabel( name );
+void customize( DropdownList ddl ) {
+  String available_output[];
+  int temHeight = 30;
+
+  ddl.setBarHeight( temHeight );
+  ddl.setItemHeight( temHeight );
+  // ddl.setBackgroundColor( 0 );
+
+  if ( ddl == p1 ) {
+    ddl.setCaptionLabel( "USB PORT" );
+    for ( int i=0; i<Serial.list().length; i++ ) {
+      String portName = Serial.list()[ i ];
+      p1.addItem( portName, i );
+    }
+    //ddl.setSize( 245, Serial.list().length * temHeight );  //
+  }
+
+  if ( ddl == p2 ) {
+    ddl.setCaptionLabel( "MIDI PORT" );
+    available_output = MidiBus.availableOutputs(); //Returns an array of available input devices
+    for ( int i=0; i<available_output.length; i++ ) {
+      String portName = available_output[ i ];
+      p2.addItem( portName, i );
+    }
+    ddl.setSize( 250, available_output.length * temHeight );  //
+  }
+
+  ddl.close();
 }
 
 ////////// Get the port number 

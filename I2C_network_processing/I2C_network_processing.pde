@@ -56,7 +56,7 @@ boolean MIDI = true;
 void setup() {
 
   surface.setTitle( "Tapis Sensitif by DATAPAULETTE" );
-  codeSetup();
+  codeSetup(); // Read values from XML config file  
 
   X_SCREN_SIZE = X_MATRIX*COLS*PIX_SIZE + X_MATRIX*( COLS-1 )*PADDING + ( X_MATRIX-1 )*MARGIN + OFFSET;
   Y_SCREN_SIZE = Y_MATRIX*ROWS*PIX_SIZE + Y_MATRIX*( ROWS-1 )*PADDING + ( Y_MATRIX-1 )*MARGIN + OFFSET;
@@ -80,19 +80,10 @@ void setup() {
   cp5 = new ControlP5( this );
 
   p1 = cp5.addDropdownList( "usbPort", X_SCREN_SIZE - menuXsize, 24, menuXsize, 127 );
-  for ( int i=0; i<Serial.list().length; i++ ) {
-    String portName = Serial.list()[ i ];
-    p1.addItem( portName, i );
-  }
-  customize( p1, "USB PORT" );
+  customize( p1 );
 
   p2 = cp5.addDropdownList( "midiPort", X_SCREN_SIZE - menuXsize*2, 24, menuXsize, 127 );
-  String[] available_output = MidiBus.availableOutputs(); //Returns an array of available input devices
-  for ( int i=0; i<available_output.length; i++ ) {
-    String portName = available_output[ i ];
-    p2.addItem( portName, i );
-  }
-  customize( p2, "MIDI PORT" );
+  customize( p2 );
   
   sMatrix = new sensorMatrix[ DEVICES ]; // Tableau de matrices de capteurs
 
@@ -109,7 +100,7 @@ void draw() {
     background( 200 );
     howTo();
   } else {
-    p1.hide();
+    // p1.hide();
 
     if ( MODE == 'R' ) background( 10, 0, 0 );
     if ( MODE == 'P' ) background( 10, 255, 30 );
