@@ -2,10 +2,11 @@
 ////////// Customiz the menu
 void customize( DropdownList ddl ) {
   String available_output[];
-  int temHeight = 30;
+  int itemHeight = 30;
+  int itemWidth = 250;
 
-  ddl.setBarHeight( temHeight );
-  ddl.setItemHeight( temHeight );
+  ddl.setBarHeight( itemHeight );
+  ddl.setItemHeight( itemHeight );
   // ddl.setBackgroundColor( 0 );
 
   if ( ddl == p1 ) {
@@ -14,7 +15,7 @@ void customize( DropdownList ddl ) {
       String portName = Serial.list()[ i ];
       p1.addItem( portName, i );
     }
-    //ddl.setSize( 245, Serial.list().length * temHeight );  //
+    ddl.setSize( itemWidth, Serial.list().length/2 * itemHeight );  //
   }
 
   if ( ddl == p2 ) {
@@ -24,7 +25,7 @@ void customize( DropdownList ddl ) {
       String portName = available_output[ i ];
       p2.addItem( portName, i );
     }
-    ddl.setSize( 250, available_output.length * temHeight );  //
+    ddl.setSize( itemWidth, available_output.length * itemHeight + itemHeight );  //
   }
 
   ddl.close();

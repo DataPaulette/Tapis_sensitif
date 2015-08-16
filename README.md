@@ -15,10 +15,12 @@ The following contributed libraries are needed
 #/Tapis_sensitif/Eagle_board/
 This folder include the Eagle source code of the electronic board made for the project.
 http://www.cadsoftusa.com/download-eagle/
+An file (7_BIT_ARRAY_COUNT.csv) that list binary codes to configure the dip switch of each board.
+This 7 bit dip switch is used to configure the address of each board.
 
-#/Tapis_sensitif/I2C_44_matrix_MASTER/
+#/Tapis_sensitif/I2C_matrix_MASTER/
 https://www.arduino.cc/en/Main/Software
 This folder include the Arduino code for the master device plugged on a computer via USB port.
 
-#/Tapis_sensitif/I2C_44_matrix_SLAVE/
+#/Tapis_sensitif/I2C_matrix_SLAVE/
 This folder include the Arduino code for each sensitive slab device that communicate  over a four wire I2C bus.
