@@ -1,10 +1,10 @@
 
-////////// Customiz the menu
-void customize( DropdownList ddl ) {
+////////// Setup the menu
+void setupMenu( DropdownList ddl ) {
   String available_output[];
   int itemHeight = 30;
   int itemWidth = 250;
-
+  
   ddl.setBarHeight( itemHeight );
   ddl.setItemHeight( itemHeight );
 
@@ -14,7 +14,7 @@ void customize( DropdownList ddl ) {
     for ( int i=0; i<Serial.list ().length; i++ ) {
       String portName = Serial.list()[ i ];
       p1.addItem( portName, i );
-    }
+    }  
     ddl.setSize( itemWidth, Serial.list().length/2 * itemHeight );  //
   }
 
@@ -47,22 +47,20 @@ void controlEvent( ControlEvent theEvent ) {
       portValue = ( int ) theEvent.controller().getValue();
       USB_PORT = Serial.list()[ portValue ];
 
-      if ( DISPLAY_MENU ) {
-        try {
-          myPort = new Serial( this, USB_PORT, BAUD_RATE );
-          println( "USB_DEVICES : " + USB_PORT );
-          myPort.write( DEVICES );
-          p1.setColorBackground( color(10, 255, 0) );
-          // load( FILE ); // BUGGED
-        } 
-        catch ( Exception e ) {
-          fill( 255, 0, 0 );
-          textAlign( CENTER );
-          textSize( X_SCREN_SIZE/8 );
-          text("WRONG USB", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
-          println( "WRONG USB PORT : " + USB_PORT );
-          p1.setColorBackground( color(255, 105, 100) );
-        }
+      try {
+        myPort = new Serial( this, USB_PORT, BAUD_RATE );
+        println( "USB_DEVICES : " + USB_PORT );
+        myPort.write( DEVICES );
+        p1.setColorBackground( color(10, 255, 0) );
+        // load( FILE ); // BUGGED
+      } 
+      catch ( Exception e ) {
+        fill( 255, 0, 0 );
+        textAlign( CENTER );
+        textSize( X_SCREN_SIZE/8 );
+        text("WRONG USB", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
+        println( "WRONG USB PORT : " + USB_PORT );
+        p1.setColorBackground( color(255, 105, 100) );
       }
     }
 
@@ -71,20 +69,18 @@ void controlEvent( ControlEvent theEvent ) {
       portValue = ( int ) theEvent.controller().getValue();
       MIDI_PORT = MidiBus.availableInputs()[ portValue ];
 
-      if ( DISPLAY_MENU ) {
-        try {
-          myBus = new MidiBus( this, -1, MIDI_PORT ); // Create a new MidiBus with no input device and one output device.
-          println( "MIDI_DEVICES : " + MIDI_PORT );
-          p2.setColorBackground( color(10, 255, 0) );
-        }
-        catch ( Exception e ) {
-          fill( 255, 0, 0 );
-          textAlign( CENTER );
-          textSize( X_SCREN_SIZE/8 );
-          text( "WRONG MIDI", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
-          println( "WRONG MIDI PORT : " + MIDI_PORT );
-          p2.setColorBackground( color(255, 105, 100) );
-        }
+      try {
+        myBus = new MidiBus( this, -1, MIDI_PORT ); // Create a new MidiBus with no input device and one output device.
+        println( "MIDI_DEVICES : " + MIDI_PORT );
+        p2.setColorBackground( color( 10, 255, 0 ) );
+      }
+      catch ( Exception e ) {
+        fill( 255, 0, 0 );
+        textAlign( CENTER );
+        textSize( X_SCREN_SIZE/8 );
+        text( "WRONG MIDI", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
+        println( "WRONG MIDI PORT : " + MIDI_PORT );
+        p2.setColorBackground( color( 255, 105, 100 ) );
       }
     }
   }

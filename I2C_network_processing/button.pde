@@ -190,7 +190,6 @@ class sensorMatrix {
   }
 
   void load( String name ) {
-    table = loadTable( "data/" + name, "header" );
     for ( int i=id*ROWS*COLS; i<id*ROWS*COLS+ROWS*COLS; i++ ) {
       int idX = table.getInt( i, 1 );
       int idY = table.getInt( i, 2 );
@@ -238,31 +237,27 @@ void save(  String file ) {
 }
 /////////////////////////////////////////////////////////
 void rec() {
-  MODE = 'R';
   fill( 255, 0, 0 );
   textSize( X_SCREN_SIZE/4 );
   textAlign( CENTER );
   text( "REC", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
-  println( "REC MODE");
+  println( "REC MODE" );
 }
 /////////////////////////////////////////////////////////
 void play() {
-  MODE = 'P';
-  p1.hide();
-  p2.hide();
   fill( 255, 0, 0 );
   textSize( X_SCREN_SIZE/4 );
   textAlign( CENTER );
   text( "PLAY", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
-  println( "PLAY MODE");
+  println( "PLAY MODE" );
 }
 /////////////////////////////////////////////////////////
-void howTo() {
+void howTo( ) {
+  background( 200 );
+
   int Xpos = X_SCREN_SIZE/4;
   int Ypos = Y_SCREN_SIZE/3;
   int vSpace = 25;
-  p1.show();
-  p2.show();
   noStroke();
   rectMode( CENTER );
   fill( 255, 255, 255, 50 );
@@ -277,5 +272,6 @@ void howTo() {
   text( "Play mode : shift + P", Xpos, Ypos + 4*vSpace );
   text( "Save topography : shift + S", Xpos, Ypos + 5*vSpace );
   text( "Load topography : shift + L", Xpos, Ypos + 6*vSpace );
+  println( "HELP MODE" );
 }
 

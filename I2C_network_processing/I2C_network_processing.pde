@@ -28,22 +28,23 @@ int menuXsize =      256;
 
 PFont font;
 Table table;
-String FILE = "saved_00.csv";
+String FILE = "saved.csv";
 
 Selector selector = new Selector( );
 
-int[][] colors = {
-  { 250, 250, 250 }, 
-  { 0, 150, 150 }, 
-  { 100, 10, 180 }, 
-  { 0, 220, 50 }, 
-  { 255, 250, 0 }, 
-  { 255, 0, 200 }
-};
 
+int[][] colors = {
+ { 250, 250, 250 }, 
+ { 0, 150, 150 }, 
+ { 100, 10, 180 }, 
+ { 0, 220, 50 }, 
+ { 255, 250, 0 }, 
+ { 255, 0, 200 }
+};
+ 
 sensorMatrix sMatrix[];
 
-char MODE = 'P';
+char MODE = 'H';
 boolean DISPLAY_MENU = true;
 boolean DEBUG_SENSOR_VALUES = false;
 boolean DEBUG_SENSOR_ID = false;
@@ -52,17 +53,18 @@ boolean DEBUG_SWITCH = false;
 boolean DEBUG_CONFIG = false;
 boolean MIDI = true;
 
+
 /////////////////////////////////////////////// SETUP
 void setup() {
 
-  size(800, 600);
   // surface.setTitle( "Tapis Sensitif by DATAPAULETTE" );
   codeSetup(); // Read values from XML config file  
 
   X_SCREN_SIZE = X_MATRIX*COLS*PIX_SIZE + X_MATRIX*( COLS-1 )*PADDING + ( X_MATRIX-1 )*MARGIN + OFFSET;
   Y_SCREN_SIZE = Y_MATRIX*ROWS*PIX_SIZE + Y_MATRIX*( ROWS-1 )*PADDING + ( Y_MATRIX-1 )*MARGIN + OFFSET;
+  size( 800, 600 );
   // surface.setSize( X_SCREN_SIZE, Y_SCREN_SIZE );
-  
+
   selector.setPos( 10, 3 );
 
   // Setup the save file
@@ -80,35 +82,31 @@ void setup() {
 
   cp5 = new ControlP5( this );
   p1 = cp5.addDropdownList( "usbPort" );
-  customize( p1 );
+  setupMenu( p1 );
   p2 = cp5.addDropdownList( "midiPort" );
-  customize( p2 );
-  
+  setupMenu( p2 );
+
   sMatrix = new sensorMatrix[ DEVICES ]; // Tableau de matrices de capteurs
 
   for ( int id=0; id<DEVICES; id++ ) {
     sMatrix[ id ] = new sensorMatrix( id );
   }
-
 }
 
 /////////////////// LOOP
 void draw() {
-
-  if ( DISPLAY_MENU ) {
-    background( 200 );
-    howTo();
-  } else {
-
-    if ( MODE == 'R' ) background( 10, 0, 0 );
-    if ( MODE == 'P' ) background( 10, 255, 30 );
-
-    for ( int id=0; id<DEVICES; id++ ) {
-      sMatrix[ id ].update();
-      sMatrix[ id ].display();
-    }
-    selector.display();
+  
+  if ( MODE == 'R' ) background( 10, 0, 0 );
+  if ( MODE == 'P' ) background( 10, 255, 30 );
+  
+  for ( int id=0; id<DEVICES; id++ ) {
+    sMatrix[ id ].update();
+    sMatrix[ id ].display();
   }
+  selector.display();
+  
+  if ( MODE == 'H' ) howTo();
+
 }
 
 void mousePressed() {
@@ -116,7 +114,7 @@ void mousePressed() {
   int mX = mouseX;
   int mY = mouseY;
 
-  if ( !DISPLAY_MENU ) {
+  if ( DISPLAY_MENU ) {
     for ( int id=0; id<DEVICES; id++ ) {
       sMatrix[ id ].onClic( mX, mY );
     }
@@ -127,12 +125,23 @@ void mousePressed() {
 void keyPressed() {
 
   if ( key == 'H' ) { // Display the help menu
-    DISPLAY_MENU = !DISPLAY_MENU;
+    MODE = 'H';
+    DISPLAY_MENU = false;
+    p1.show();
+    p2.show();
   }
   if ( key == 'R' ) { // Record mode for the mapping
+    MODE = 'R';
+    DISPLAY_MENU = true;
+    p1.hide();
+    p2.hide();
     rec();
   }
   if ( key == 'P' ) { // Set play mode
+    MODE = 'P';
+    DISPLAY_MENU = true;
+    p1.hide();
+    p2.hide();
     play();
   }
   if ( key == 'L' ) { // Lode saved file
@@ -142,3 +151,4 @@ void keyPressed() {
     save( FILE );
   }
 }
+
