@@ -4,7 +4,7 @@ void setupMenu( DropdownList ddl ) {
   String available_output[];
   int itemHeight = 30;
   int itemWidth = 250;
-  
+
   ddl.setBarHeight( itemHeight );
   ddl.setItemHeight( itemHeight );
 
@@ -52,7 +52,7 @@ void controlEvent( ControlEvent theEvent ) {
         println( "USB_DEVICES : " + USB_PORT );
         myPort.write( DEVICES );
         p1.setColorBackground( color(10, 255, 0) );
-        // load( FILE ); // BUGGED
+        load( FILE ); // BUGGED
       } 
       catch ( Exception e ) {
         fill( 255, 0, 0 );
@@ -67,14 +67,14 @@ void controlEvent( ControlEvent theEvent ) {
     //////////////////////////////////////////////////////////// MIDI PORT
     if ( theEvent.controller().getName() == "midiPort" ) {
       portValue = ( int ) theEvent.controller().getValue();
-      MIDI_PORT = MidiBus.availableInputs()[ portValue ];
+      MIDI_PORT = MidiBus.availableOutputs()[ portValue ];
 
       try {
-        myBus = new MidiBus( this, -1, MIDI_PORT ); // Create a new MidiBus with no input device and one output device.
+        outgoing = new MidiBus( this, -1, MIDI_PORT ); // Create a new MidiBus with no input device and one output device.
         println( "MIDI_DEVICES : " + MIDI_PORT );
-        p2.setColorBackground( color( 10, 255, 0 ) );
+        p1.setColorBackground( color(255, 105, 100) );
       }
-      catch ( Exception e ) {
+      catch ( Exception e ) { ///////////////////////// FIXME
         fill( 255, 0, 0 );
         textAlign( CENTER );
         textSize( X_SCREN_SIZE/8 );
@@ -85,4 +85,3 @@ void controlEvent( ControlEvent theEvent ) {
     }
   }
 }
-

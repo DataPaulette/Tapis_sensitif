@@ -7,12 +7,14 @@ class Selector {
   int pX;
   int pY;
   int size;
+  int SPACE;
   boolean buttonArray[];
 
   // INIT
   Selector() {
     n = 6;
-    size = 20;
+    size = 22;
+    SPACE = 10;
     buttonArray = new boolean [ n ];
     buttonArray[ 1 ] = true;
   }
@@ -23,8 +25,8 @@ class Selector {
   }
 
   void onClic( int mX, int mY ) {
-    for (int i=1; i<n; i++) {
-      if ( mX > pX+i*size && mX < pX+i*size+size && mY > pY && mY < pY+size ) {
+    for ( int i=1; i<n; i++ ) {
+      if ( mX > pX+i*size+SPACE*i && mX < pX+i*size+size+SPACE*i && mY > pY && mY < pY+size ) {
         buttonArray[ i ] = true;
         buttonArray[ selectorVal ] = false;
         selectorVal = i;
@@ -41,7 +43,8 @@ class Selector {
         fill( 200 );
       }
       noStroke();
-      rect( pX+i*size, pY, size, size, 0 );
+      rect( pX+i*size+SPACE*i, pY, size, size, 10 );
+      // ellipse( pX+i*size+SPACE*i, pY, size, size );
     }
   }
 }
@@ -91,14 +94,24 @@ class sensorMatrix {
             toggle[ idX ][ idY ] = true;
             println ( "PLAY " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ] + " ON");
             if ( label[ idX ][ idY ] != -1 ) {
-              myBus.sendNoteOn( 1, label[ idX ][ idY ], 127 ); // Send a Midi noteOn
+              try {
+                outgoing.sendNoteOn( 1, label[ idX ][ idY ], 127 ); // Send a Midi noteOn
+              }
+              catch ( Exception e ) {
+                //
+              }
             }
           }
           if ( storedValue[ id ][ idX ][ idY ] < THRESHOLD && toggle[ idX ][ idY ] == true ) {
             toggle[ idX ][ idY ] = false;
             println ( "PLAY " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ] + " OFF");
             if ( label[ idX ][ idY ] != -1 ) {
-              myBus.sendNoteOn( 1, label[ idX ][ idY ], 0 ); // Send a Midi noteOn
+              try {
+                outgoing.sendNoteOn( 1, label[ idX ][ idY ], 0 ); // Send a Midi noteOn
+              }
+              catch ( Exception e ) {
+                //
+              }
             }
           }
           break;
@@ -174,11 +187,11 @@ class sensorMatrix {
           case 'R':
             label[ idX ][ idY ]++;
             label[ idX ][ idY ] = label[ idX ][ idY ] % 6;
-            println ( "REC " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ]  );
+            println ( "MOUSE_CLIC " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ] );
             break;
           case 'P':
             toggle[ idX ][ idY ] = true;
-            println ( "PLAY " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ]  );
+            println ( "MOUSE_CLIC " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ] );
           }
         }
       }
@@ -214,13 +227,14 @@ class sensorMatrix {
 
 /////////////////////////////////////////////////////////
 void load( String file ) {
+  table = loadTable( FILE, "header");
   for ( int id=0; id<DEVICES; id++ ) {
     sMatrix[ id ].load( file );
   }
   fill( 255, 0, 0 );
-  textSize( X_SCREN_SIZE/4 );
   textAlign( CENTER );
-  text( "LOAD", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
+  textSize( X_SCREN_SIZE/6 );
+  text( "LOADED", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
   println( "LOADED ./data/" + file );
 }
 /////////////////////////////////////////////////////////
@@ -254,24 +268,21 @@ void play() {
 /////////////////////////////////////////////////////////
 void howTo( ) {
   background( 200 );
-
   int Xpos = X_SCREN_SIZE/4;
   int Ypos = Y_SCREN_SIZE/3;
   int vSpace = 25;
   noStroke();
   rectMode( CENTER );
-  fill( 255, 255, 255, 50 );
-  rect( Xpos*1.5, Ypos*1.5, 300, 300, 10 );
+  fill( 255, 255, 255, 240 );
+  rect( Xpos*1.5, Ypos*1.5, 400, 300, 20 );
   fill( 100 );
   textSize( 16 );
   textAlign( LEFT );
   text( "Select the USB port", Xpos, Ypos + 0*vSpace );
   text( "Select the MIDI port", Xpos, Ypos + 1*vSpace );
-  text( "Display this help : shift + H", Xpos, Ypos + 2*vSpace );
-  text( "Record mode : shift + R", Xpos, Ypos + 3*vSpace );
-  text( "Play mode : shift + P", Xpos, Ypos + 4*vSpace );
-  text( "Save topography : shift + S", Xpos, Ypos + 5*vSpace );
-  text( "Load topography : shift + L", Xpos, Ypos + 6*vSpace );
-  println( "HELP MODE" );
+  text( "Display HELP : shift + H", Xpos, Ypos + 2*vSpace );
+  text( "Switch to RECORD mode : shift + R", Xpos, Ypos + 3*vSpace );
+  text( "Switch to PLAY mode : shift + P", Xpos, Ypos + 4*vSpace );
+  text( "SAVE topography : shift + S", Xpos, Ypos + 5*vSpace );
+  text( "LOAD topography : shift + L", Xpos, Ypos + 6*vSpace );
 }
-

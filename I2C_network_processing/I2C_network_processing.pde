@@ -6,7 +6,7 @@ Serial               myPort;        // Create object from menu class
 ControlP5            cp5;           // Create object from menu class
 DropdownList         p1; 
 DropdownList         p2;            // Create object from menu class
-MidiBus              myBus;         // Create object from menu class
+MidiBus              outgoing;      // Create object from menu class
 
 int X_SCREN_SIZE =   0;
 int Y_SCREN_SIZE =   0;
@@ -32,7 +32,6 @@ String FILE = "saved.csv";
 
 Selector selector = new Selector( );
 
-
 int[][] colors = {
  { 250, 250, 250 }, 
  { 0, 150, 150 }, 
@@ -45,19 +44,18 @@ int[][] colors = {
 sensorMatrix sMatrix[];
 
 char MODE = 'H';
-boolean DISPLAY_MENU = true;
+boolean DISPLAY_MATRIX = false;
 boolean DEBUG_SENSOR_VALUES = false;
 boolean DEBUG_SENSOR_ID = false;
 boolean DEBUG_SENSOR_POS = false;
 boolean DEBUG_SWITCH = false;
 boolean DEBUG_CONFIG = false;
-boolean MIDI = true;
-
+// boolean MIDI = true;
 
 /////////////////////////////////////////////// SETUP
 void setup() {
 
-  // surface.setTitle( "Tapis Sensitif by DATAPAULETTE" );
+  surface.setTitle( "Tapis Sensitif - V1.1 - Design dy DATAPAULETTE" );
   codeSetup(); // Read values from XML config file  
 
   X_SCREN_SIZE = X_MATRIX*COLS*PIX_SIZE + X_MATRIX*( COLS-1 )*PADDING + ( X_MATRIX-1 )*MARGIN + OFFSET;
@@ -91,13 +89,14 @@ void setup() {
   for ( int id=0; id<DEVICES; id++ ) {
     sMatrix[ id ] = new sensorMatrix( id );
   }
+  MidiBus.list();
 }
 
 /////////////////// LOOP
 void draw() {
   
-  if ( MODE == 'R' ) background( 10, 0, 0 );
-  if ( MODE == 'P' ) background( 10, 255, 30 );
+  if ( MODE == 'R' ) background( 150, 10, 100 );
+  if ( MODE == 'P' ) background( 10, 189, 60 );
   
   for ( int id=0; id<DEVICES; id++ ) {
     sMatrix[ id ].update();
@@ -106,7 +105,6 @@ void draw() {
   selector.display();
   
   if ( MODE == 'H' ) howTo();
-
 }
 
 void mousePressed() {
@@ -114,7 +112,7 @@ void mousePressed() {
   int mX = mouseX;
   int mY = mouseY;
 
-  if ( DISPLAY_MENU ) {
+  if ( DISPLAY_MATRIX ) {
     for ( int id=0; id<DEVICES; id++ ) {
       sMatrix[ id ].onClic( mX, mY );
     }
@@ -126,20 +124,21 @@ void keyPressed() {
 
   if ( key == 'H' ) { // Display the help menu
     MODE = 'H';
-    DISPLAY_MENU = false;
+    DISPLAY_MATRIX = false;
     p1.show();
     p2.show();
+    println( "HELP MODE" );
   }
   if ( key == 'R' ) { // Record mode for the mapping
     MODE = 'R';
-    DISPLAY_MENU = true;
+    DISPLAY_MATRIX = true;
     p1.hide();
     p2.hide();
     rec();
   }
   if ( key == 'P' ) { // Set play mode
     MODE = 'P';
-    DISPLAY_MENU = true;
+    DISPLAY_MATRIX = true;
     p1.hide();
     p2.hide();
     play();
@@ -151,4 +150,3 @@ void keyPressed() {
     save( FILE );
   }
 }
-
