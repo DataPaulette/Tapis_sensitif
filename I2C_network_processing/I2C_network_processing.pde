@@ -1,10 +1,12 @@
+// Maurin Donneaud : maurin@datapaulette.org
+
 import processing.serial.*;
 import themidibus.*;
 import controlP5.*;
 
 Serial               myPort;        // Create object from menu class
 ControlP5            cp5;           // Create object from menu class
-DropdownList         p1; 
+DropdownList         p1;            // Create object from menu class
 DropdownList         p2;            // Create object from menu class
 MidiBus              outgoing;      // Create object from menu class
 
@@ -134,6 +136,7 @@ void keyPressed() {
     DISPLAY_MATRIX = true;
     p1.hide();
     p2.hide();
+    selector.show();
     rec();
   }
   if ( key == 'P' ) { // Set play mode
@@ -141,6 +144,7 @@ void keyPressed() {
     DISPLAY_MATRIX = true;
     p1.hide();
     p2.hide();
+    selector.hide();
     play();
   }
   if ( key == 'L' ) { // Lode saved file

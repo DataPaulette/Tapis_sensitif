@@ -497,16 +497,12 @@ will be further integrated into the Sparkfun Library for other footprints.  It c
 <package name="1X04_LONGPADS">
 <wire x1="-1.27" y1="0.635" x2="-1.27" y2="-0.635" width="0.2032" layer="21"/>
 <wire x1="8.89" y1="0.635" x2="8.89" y2="-0.635" width="0.2032" layer="21"/>
-<pad name="1" x="0" y="0" drill="1.1176" diameter="1.8796" shape="long" rot="R90"/>
-<pad name="2" x="2.54" y="0" drill="1.1176" diameter="1.8796" shape="long" rot="R90"/>
-<pad name="3" x="5.08" y="0" drill="1.1176" diameter="1.8796" shape="long" rot="R90"/>
-<pad name="4" x="7.62" y="0" drill="1.1176" diameter="1.8796" shape="long" rot="R90"/>
+<pad name="1" x="0" y="0" drill="1.5" diameter="1.6764" shape="long" rot="R90"/>
+<pad name="2" x="2.54" y="0" drill="1.5" diameter="1.6764" shape="long" rot="R90"/>
+<pad name="3" x="5.08" y="0" drill="1.5" diameter="1.6764" shape="long" rot="R90"/>
+<pad name="4" x="7.62" y="0" drill="1.5" diameter="1.6764" shape="long" rot="R90"/>
 <text x="-1.3462" y="2.4638" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="-1.27" y="-3.81" size="1.27" layer="27">&gt;VALUE</text>
-<rectangle x1="7.366" y1="-0.254" x2="7.874" y2="0.254" layer="51"/>
-<rectangle x1="4.826" y1="-0.254" x2="5.334" y2="0.254" layer="51"/>
-<rectangle x1="2.286" y1="-0.254" x2="2.794" y2="0.254" layer="51"/>
-<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
 </package>
 <package name="1X04_NO_SILK">
 <pad name="1" x="0" y="0" drill="1.016" diameter="1.8796" shape="square" rot="R90"/>

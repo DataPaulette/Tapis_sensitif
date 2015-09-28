@@ -9,6 +9,7 @@ class Selector {
   int size;
   int SPACE;
   boolean buttonArray[];
+  boolean activated;
 
   // INIT
   Selector() {
@@ -17,6 +18,7 @@ class Selector {
     SPACE = 10;
     buttonArray = new boolean [ n ];
     buttonArray[ 1 ] = true;
+    activated = false;
   }
 
   void setPos( int posX, int posY ) {
@@ -24,27 +26,39 @@ class Selector {
     pY = posY;
   }
 
+  void hide() {
+    activated = false;
+  }
+
+  void show() {
+    activated = true;
+  }
+
   void onClic( int mX, int mY ) {
-    for ( int i=1; i<n; i++ ) {
-      if ( mX > pX+i*size+SPACE*i && mX < pX+i*size+size+SPACE*i && mY > pY && mY < pY+size ) {
-        buttonArray[ i ] = true;
-        buttonArray[ selectorVal ] = false;
-        selectorVal = i;
-        println( selectorVal );
+    if ( activated ) {
+      for ( int i=1; i<n; i++ ) {
+        if ( mX > pX+i*size+SPACE*i && mX < pX+i*size+size+SPACE*i && mY > pY && mY < pY+size ) {
+          buttonArray[ i ] = true;
+          buttonArray[ selectorVal ] = false;
+          selectorVal = i;
+          println( selectorVal );
+        }
       }
     }
   }
 
   void display( ) {
-    for ( int i=1; i<n; i++ ) {
-      if ( buttonArray[ i ] == true ) {
-        fill( colors[ i ][ 0 ], colors[ i ][ 1 ], colors[ i ][ 2 ] );
-      } else {
-        fill( 200 );
+    if ( activated ) {
+      for ( int i=1; i<n; i++ ) {
+        if ( buttonArray[ i ] == true ) {
+          fill( colors[ i ][ 0 ], colors[ i ][ 1 ], colors[ i ][ 2 ] );
+        } else {
+          fill( 200 );
+        }
+        noStroke();
+        rect( pX+i*size+SPACE*i, pY, size, size, 10 );
+        // ellipse( pX+i*size+SPACE*i, pY, size, size );
       }
-      noStroke();
-      rect( pX+i*size+SPACE*i, pY, size, size, 10 );
-      // ellipse( pX+i*size+SPACE*i, pY, size, size );
     }
   }
 }
@@ -82,7 +96,7 @@ class sensorMatrix {
           if ( storedValue[ id ][ idX ][ idY ] >= THRESHOLD && toggle[ idX ][ idY ] == false ) {
             toggle[ idX ][ idY ] = true;
             label[ idX ][ idY ] = selectorVal;
-            println ( "REC " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ]  );
+            println ( "REC " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ]  );
           }
           if ( storedValue[ id ][ idX ][ idY ] < THRESHOLD && toggle[ idX ][ idY ] == true ) {
             toggle[ idX ][ idY ] = false;
@@ -92,10 +106,10 @@ class sensorMatrix {
         case 'P':
           if ( storedValue[ id ][ idX ][ idY ] >= THRESHOLD && toggle[ idX ][ idY ] == false ) {
             toggle[ idX ][ idY ] = true;
-            println ( "PLAY " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ] + " ON");
+            println ( "PLAY " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ] + " ON");
             if ( label[ idX ][ idY ] != -1 ) {
               try {
-                outgoing.sendNoteOn( 1, label[ idX ][ idY ], 127 ); // Send a Midi noteOn
+                outgoing.sendNoteOn( 1, label[ idX ][ idY ], 127 ); // Send a Midi noteON
               }
               catch ( Exception e ) {
                 //
@@ -104,10 +118,10 @@ class sensorMatrix {
           }
           if ( storedValue[ id ][ idX ][ idY ] < THRESHOLD && toggle[ idX ][ idY ] == true ) {
             toggle[ idX ][ idY ] = false;
-            println ( "PLAY " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ] + " OFF");
             if ( label[ idX ][ idY ] != -1 ) {
+              println ( "PLAY " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ] + " OFF");
               try {
-                outgoing.sendNoteOn( 1, label[ idX ][ idY ], 0 ); // Send a Midi noteOn
+                outgoing.sendNoteOn( 1, label[ idX ][ idY ], 0 ); // Send a Midi noteOFF
               }
               catch ( Exception e ) {
                 //
@@ -187,11 +201,19 @@ class sensorMatrix {
           case 'R':
             label[ idX ][ idY ]++;
             label[ idX ][ idY ] = label[ idX ][ idY ] % 6;
-            println ( "MOUSE_CLIC " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ] );
+            println ( "MOUSE_CLIC " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ] );
             break;
           case 'P':
+            if ( label[ idX ][ idY ] != -1 ) {
+              println ( "PLAY " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ] + " ON");
+              try {
+                outgoing.sendNoteOn( 1, label[ idX ][ idY ], 127 ); // Send a Midi noteON
+              }
+              catch ( Exception e ) {
+                //
+              }
+            }
             toggle[ idX ][ idY ] = true;
-            println ( "MOUSE_CLIC " + id + " " + idX + " " + idY + " label : " + label[ idX ][ idY ] );
           }
         }
       }
