@@ -21,7 +21,7 @@ void setupMenu( DropdownList ddl ) {
   if ( ddl == p2 ) {
     ddl.setPosition( X_SCREN_SIZE - menuXsize*2, 0);
     ddl.setCaptionLabel( "MIDI PORT" );
-    available_output = MidiBus.availableOutputs(); //Returns an array of available input devices
+    available_output = outgoing.availableOutputs(); // Returns an array of available output devices
     for ( int i=0; i<available_output.length; i++ ) {
       String portName = available_output[ i ];
       p2.addItem( portName, i );
@@ -67,10 +67,11 @@ void controlEvent( ControlEvent theEvent ) {
     //////////////////////////////////////////////////////////// MIDI PORT
     if ( theEvent.controller().getName() == "midiPort" ) {
       portValue = ( int ) theEvent.controller().getValue();
-      MIDI_PORT = MidiBus.availableOutputs()[ portValue ];
+      MIDI_PORT = outgoing.availableOutputs()[ portValue ];
 
       try {
         outgoing = new MidiBus( this, -1, MIDI_PORT ); // Create a new MidiBus with no input device and one output device.
+        // outgoing = new MidiBus( this, -1, "Real Time Sequencer" ); // Create a new MidiBus with no input device and one output device.
         println( "MIDI_DEVICES : " + MIDI_PORT );
         p1.setColorBackground( color(255, 105, 100) );
       }

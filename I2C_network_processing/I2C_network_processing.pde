@@ -1,8 +1,8 @@
 // Maurin Donneaud : maurin@datapaulette.org
 
 import processing.serial.*;
-import themidibus.*;
 import controlP5.*;
+import themidibus.*;
 
 Serial               myPort;        // Create object from menu class
 ControlP5            cp5;           // Create object from menu class
@@ -57,7 +57,7 @@ boolean DEBUG_CONFIG = false;
 /////////////////////////////////////////////// SETUP
 void setup() {
 
-  surface.setTitle( "Tapis Sensitif - V1.1 - Design dy DATAPAULETTE" );
+  surface.setTitle( "Tapis Sensitif - V1.2 - Design dy DATAPAULETTE" );
   codeSetup(); // Read values from XML config file  
 
   X_SCREN_SIZE = X_MATRIX*COLS*PIX_SIZE + X_MATRIX*( COLS-1 )*PADDING + ( X_MATRIX-1 )*MARGIN + OFFSET;
@@ -91,7 +91,7 @@ void setup() {
   for ( int id=0; id<DEVICES; id++ ) {
     sMatrix[ id ] = new sensorMatrix( id );
   }
-  MidiBus.list();
+  outgoing.list();
 }
 
 /////////////////// LOOP

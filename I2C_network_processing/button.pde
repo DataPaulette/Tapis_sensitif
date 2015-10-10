@@ -106,22 +106,22 @@ class sensorMatrix {
         case 'P':
           if ( storedValue[ id ][ idX ][ idY ] >= THRESHOLD && toggle[ idX ][ idY ] == false ) {
             toggle[ idX ][ idY ] = true;
-            println ( "PLAY " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ] + " ON");
+            println ( "PLAY " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ] + " ON" );
             if ( label[ idX ][ idY ] != -1 ) {
               try {
-                outgoing.sendNoteOn( 1, label[ idX ][ idY ], 127 ); // Send a Midi noteON
+                outgoing.sendNoteOn( id, label[ idX ][ idY ], 127 ); // Send a Midi noteON
               }
               catch ( Exception e ) {
-                //
+                println ( "MIDI_ERROR " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ] );
               }
             }
           }
           if ( storedValue[ id ][ idX ][ idY ] < THRESHOLD && toggle[ idX ][ idY ] == true ) {
             toggle[ idX ][ idY ] = false;
             if ( label[ idX ][ idY ] != -1 ) {
-              println ( "PLAY " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ] + " OFF");
+              println ( "PLAY " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ] + " OFF" );
               try {
-                outgoing.sendNoteOn( 1, label[ idX ][ idY ], 0 ); // Send a Midi noteOFF
+                outgoing.sendNoteOff( id, label[ idX ][ idY ], 0 ); // Send a Midi noteOFF
               }
               catch ( Exception e ) {
                 //
@@ -197,16 +197,19 @@ class sensorMatrix {
         pY = posY*ROWS*PIX_SIZE + idY*PIX_SIZE + idY*PADDING + posY*MARGIN + OFFSET;
 
         if ( Mx > pX && Mx < pX+PIX_SIZE && My > pY && My < pY+PIX_SIZE ) {
+          
           switch ( MODE ) {
+            
           case 'R':
             label[ idX ][ idY ]++;
             label[ idX ][ idY ] = label[ idX ][ idY ] % 6;
             println ( "MOUSE_CLIC " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ] );
             break;
+            
           case 'P':
             if ( label[ idX ][ idY ] != -1 ) {
               try {
-                println ( "PLAY " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ] + " ON");
+                println ( "PLAY " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ] + " ON" );
                 outgoing.sendNoteOn( 1, label[ idX ][ idY ], 127 ); // Send a Midi noteON
               }
               catch ( Exception e ) {
