@@ -205,12 +205,12 @@ class sensorMatrix {
             break;
           case 'P':
             if ( label[ idX ][ idY ] != -1 ) {
-              println ( "PLAY " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ] + " ON");
               try {
+                println ( "PLAY " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ] + " ON");
                 outgoing.sendNoteOn( 1, label[ idX ][ idY ], 127 ); // Send a Midi noteON
               }
               catch ( Exception e ) {
-                //
+                println ( "MIDI_ERROR " + id + " " + idX + " " + idY + " label: " + label[ idX ][ idY ]);
               }
             }
             toggle[ idX ][ idY ] = true;
