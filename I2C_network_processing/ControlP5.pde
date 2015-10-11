@@ -51,7 +51,7 @@ void controlEvent( ControlEvent theEvent ) {
         myPort = new Serial( this, USB_PORT, BAUD_RATE );
         println( "USB_DEVICES : " + USB_PORT );
         myPort.write( DEVICES );
-        p1.setColorBackground( color(10, 255, 0) );
+        p1.setColorBackground( color( 10, 255, 0 ) );
         load( FILE ); // BUGGED
       } 
       catch ( Exception e ) {
@@ -60,7 +60,7 @@ void controlEvent( ControlEvent theEvent ) {
         textSize( X_SCREN_SIZE/8 );
         text("WRONG USB", X_SCREN_SIZE/2, Y_SCREN_SIZE/2 );
         println( "WRONG USB PORT : " + USB_PORT );
-        p1.setColorBackground( color(255, 105, 100) );
+        p1.setColorBackground( color( 255, 105, 100 ) );
       }
     }
 
@@ -71,9 +71,8 @@ void controlEvent( ControlEvent theEvent ) {
 
       try {
         outgoing = new MidiBus( this, -1, MIDI_PORT ); // Create a new MidiBus with no input device and one output device.
-        // outgoing = new MidiBus( this, -1, "Real Time Sequencer" ); // Create a new MidiBus with no input device and one output device.
         println( "MIDI_DEVICES : " + MIDI_PORT );
-        p1.setColorBackground( color(255, 105, 100) );
+        p2.setColorBackground( color( 10, 255, 0 ) );
       }
       catch ( Exception e ) { ///////////////////////// FIXME
         fill( 255, 0, 0 );

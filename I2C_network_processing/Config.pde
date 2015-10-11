@@ -16,7 +16,7 @@ void codeSetup() {
       Y_MATRIX = children[ i ].getInt( "Y_MATRIX" );
       if ( DEBUG_CONFIG ) println( "Y_MATRIX : " + Y_MATRIX );
       break;
-    case 2: 
+    case 2:
       PIX_SIZE = children[ i ].getInt( "PIX_SIZE" );
       if ( DEBUG_CONFIG ) println( "PIX_SIZE : " + PIX_SIZE );
       break;
@@ -43,4 +43,3 @@ void codeSetup() {
     }
   }
 }
-

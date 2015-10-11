@@ -62,8 +62,8 @@ void setup() {
 
   X_SCREN_SIZE = X_MATRIX*COLS*PIX_SIZE + X_MATRIX*( COLS-1 )*PADDING + ( X_MATRIX-1 )*MARGIN + OFFSET;
   Y_SCREN_SIZE = Y_MATRIX*ROWS*PIX_SIZE + Y_MATRIX*( ROWS-1 )*PADDING + ( Y_MATRIX-1 )*MARGIN + OFFSET;
-  size( 800, 600 );
-  // surface.setSize( X_SCREN_SIZE, Y_SCREN_SIZE );
+  // size( 800, 600 );
+  surface.setSize( X_SCREN_SIZE, Y_SCREN_SIZE );
 
   selector.setPos( 10, 3 );
 
