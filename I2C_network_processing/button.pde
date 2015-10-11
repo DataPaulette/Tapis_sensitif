@@ -104,18 +104,19 @@ class sensorMatrix {
           break;
 
         case 'P':
-          int pos = (idX + 1) * (idY + 1);
+          int sensorID = ( idY * ROWS + idX );
 
           if ( storedValue[ id ][ idX ][ idY ] >= THRESHOLD && toggle[ idX ][ idY ] == false ) {
             toggle[ idX ][ idY ] = true;
 
             if ( label[ idX ][ idY ] != -1 ) {
               try {
-                outgoing.sendNoteOn( id, pos, label[ idX ][ idY ] ); // Send a Midi noteON
-                println ( "PLAY : " + id + " " + pos + " " + label[ idX ][ idY ] );
+                // outgoing.sendNoteOn( id, pos, label[ idX ][ idY ] ); // Send a Midi noteON
+                outgoing.sendControllerChange( sensorID, id, label[ idX ][ idY ] ); // Send a Midi noteON
+                println ( "PLAY : " + sensorID + " " + id + " " + label[ idX ][ idY ] );
               }
               catch ( Exception e ) {
-                println ( "MIDI_ERROR : " + id + " " + pos + " " + label[ idX ][ idY ] );
+                println ( "MIDI_ERROR : " + sensorID + " " + id + " " + label[ idX ][ idY ] );
               }
             }
           }
@@ -124,11 +125,11 @@ class sensorMatrix {
             
             if ( label[ idX ][ idY ] != -1 ) {
               try {
-                // outgoing.sendNoteOff( id, pos, -1 ); // Send a Midi noteOFF
-                // println ( "STOP : " + id + " " + pos + " " + -1 ); // -1 ??????
+                // outgoing.sendNoteOff( sensorID, id, label[ idX ][ idY ] ); // Send a Midi noteOFF
+                // println ( "STOP : " + sensorID + " " + id + " " + label[ idX ][ idY ] );
               }
               catch ( Exception e ) {
-                println ( "MIDI_ERROR : " + id + " " + pos + " " + label[ idX ][ idY ] );
+                println ( "MIDI_ERROR : " + sensorID + " " + id + " " + label[ idX ][ idY ] );
               }
             }
           }
@@ -202,25 +203,25 @@ class sensorMatrix {
 
         if ( Mx > pX && Mx < pX+PIX_SIZE && My > pY && My < pY+PIX_SIZE ) {
           
-          int pos = (idX + 1) * (idY + 1);
+          int sensorID = ( idY * ROWS + idX );
 
           switch ( MODE ) {
 
           case 'R':
             label[ idX ][ idY ]++;
             label[ idX ][ idY ] = label[ idX ][ idY ] % 6;
-            println ( "MOUSE CLIC : " + id + " " + pos + " " + label[ idX ][ idY ] );
+            println ( "MOUSE CLIC : " + sensorID + " " + id + " " + label[ idX ][ idY ] );
             break;
             
           case 'P':
-          
             if ( label[ idX ][ idY ] != -1 ) {
               try {
-                println ( "MOUSE PLAY : " + id + " " + pos + " " + label[ idX ][ idY ] );
-                outgoing.sendNoteOn( id, pos, label[ idX ][ idY ] ); // Send a Midi noteON
+                println ( "MOUSE PLAY : " + id + " " + sensorID + " " + label[ idX ][ idY ] );
+                // outgoing.sendNoteOn( id, pos, label[ idX ][ idY ] ); // Send a Midi noteON
+                outgoing.sendControllerChange( sensorID, id, label[ idX ][ idY ] ); // Send a Midi noteON
               }
               catch ( Exception e ) {
-                println ( "MIDI ERROR : " + id + " " + pos + " " + label[ idX ][ idY ] );
+                println ( "MIDI ERROR : " + sensorID + " " + id + " " + label[ idX ][ idY ] );
               }
             }
             toggle[ idX ][ idY ] = true;
