@@ -24,4 +24,7 @@ http://www.cadsoftusa.com/download-eagle/
 the file 7_BIT_ARRAY_COUNT.csv is useful to configure the dip switch of each board. \
 This 7 bit dip switch is used to configure the address of each board. \
 
-START virtal midi : modprobe snd-virmidi
+Linux START virtal midi : modprobe snd-virmidi
+
+TODO :
+RPC library for arduino !?

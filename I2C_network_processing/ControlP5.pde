@@ -53,7 +53,7 @@ void controlEvent( ControlEvent theEvent ) {
         myPort.write( DEVICES );
         p1.setColorBackground( color( 10, 255, 0 ) );
         load( FILE ); // BUGGED
-      } 
+      }
       catch ( Exception e ) {
         fill( 255, 0, 0 );
         textAlign( CENTER );

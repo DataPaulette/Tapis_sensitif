@@ -3,7 +3,7 @@
 // I2C bus based A4 (SDA), A5 (SCL)
 // licence GPL V2.0
 // Arduino Pro or Pro Mini
-// ATmega328 (3.3V 8MHz)
+// ATmega328 (5V - 16MHz)
 
 #include <Wire.h>
 
@@ -13,7 +13,7 @@
 #define  COLS              3
 #define  PAYLOAD_SIZE      ROWS*COLS*2 // bytes expected to be received by the master I2C master
 #define  LED_PIN           13
-#define  I2C_SLAVE_START   33
+// #define  I2C_SLAVE_START   33
 #define  FRAME_RATE        30
 #define  DIL_SWITCH        7
 
@@ -49,20 +49,19 @@ boolean DEBUG_NODE_ADDRESS = false;
 void setup() {
 
   pinMode( LED_PIN, OUTPUT );          // Set rows pins in high-impedance state
-
-  if ( USB_TRANSMIT ) Serial.begin( BAUD_RATE );              // start serial for output
-  if ( !USB_TRANSMIT ) Wire.begin( NODE_ADDRESS );          // join i2c bus with address #8
-  if ( !USB_TRANSMIT ) Wire.onRequest( requestEvent );     // register event
-
-  for ( int i = 0; i < ROWS; i++ ) {
-    pinMode( rowPins[ i ], INPUT );    // Set rows pins in high-impedance state
-  }
+  if ( USB_TRANSMIT ) Serial.begin( BAUD_RATE );            // start serial for output
 
   for ( int i = 0; i < DIL_SWITCH; i++ ) {
     pinMode( dilSwitch[ i ], INPUT_PULLUP ); // Set dilSwitch pins as input and activate pullUps resistors
   }
-
   setNodeID();
+
+  if ( !USB_TRANSMIT ) Wire.begin( NODE_ADDRESS );          // join i2c bus with address #8
+  if ( !USB_TRANSMIT ) Wire.onRequest( requestEvent );      // register event
+
+  for ( int i = 0; i < ROWS; i++ ) {
+    pinMode( rowPins[ i ], INPUT );    // Set rows pins in high-impedance state
+  }
 
   blinkBlink( 15 );
 }
@@ -100,7 +99,7 @@ void loop() {
         if ( USB_TRANSMIT ) Serial.print( value ), Serial.print( '\t' );
       }
       // Set row pin in high-impedance state
-      pinMode(rowPins[ row ], INPUT);
+      pinMode( rowPins[ row ], INPUT );
       if ( USB_TRANSMIT ) Serial.println();
     }
     if ( USB_TRANSMIT ) Serial.println();
@@ -121,8 +120,9 @@ void blinkBlink( int times ) {
   }
 }
 
-
 void setNodeID() {
+
+  Serial.println("START");
 
   for ( int i = 0; i < DIL_SWITCH; i++) {
 
@@ -130,10 +130,10 @@ void setNodeID() {
 
     if ( bitVal == HIGH) {
       bitClear( NODE_ADDRESS, i );
-
     } else {
       bitSet( NODE_ADDRESS, i );
     }
   }
   if ( DEBUG_NODE_ADDRESS ) Serial.println( NODE_ADDRESS );
 }
+

@@ -1,6 +1,6 @@
 int FOOTER = 255;                      // 
-int BYTES = ROWS*COLS*2+1;             // 4 x 4 x 2 + 1
-int serialData[ ] = new int[ BYTES ];  // 
+int BYTES = ROWS*COLS*2+1;             // 3 x 3 x 2 + 1
+int serialData[ ] = new int[ BYTES ];  //
 int index = 0;                         // 0 - 512
 int storedValue[ ][ ][ ] = new int[ 255 ][ 4 ][ 4 ];
 
