@@ -5,7 +5,10 @@
 // Arduino Pro or Pro Mini
 // ATmega328 (5V - 16MHz)
 
+#include <elapsedMillis.h>
 #include <Wire.h>
+
+elapsedMillis elapsedTime; //declare global if you don't want it reset every time loop runs
 
 #define  BAUD_RATE         115200
 
@@ -77,8 +80,11 @@ void loop() {
    }
   */
 
-  if ( ( millis() - lastFrameTime ) >= FRAME_RATE ) {
-    lastFrameTime = millis();
+  // if ( ( millis() - lastFrameTime ) >= FRAME_RATE ) {
+  if ( elapsedTime >= FRAME_RATE ) {
+
+    // lastFrameTime = millis();
+    elapsedTime = 0;              // reset the counter to 0 so the counting starts over...
 
     for ( int row = 0; row < ROWS; row++ ) {
       // Set row pin as output (+3V)
