@@ -48,7 +48,7 @@ sensorMatrix sMatrix[];
 
 char MODE = 'H';
 boolean DISPLAY_MATRIX = false;
-boolean DEBUG_SENSOR_VALUES = false;
+boolean DEBUG_SENSOR_VALUES = true;
 boolean DEBUG_SENSOR_ID = false;
 boolean DEBUG_SENSOR_POS = false;
 boolean DEBUG_SWITCH = false;
