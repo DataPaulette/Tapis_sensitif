@@ -8,20 +8,18 @@
 #include <elapsedMillis.h>
 #include <Wire.h>
 
-elapsedMillis elapsedTime; //declare global if you don't want it reset every time loop runs
+elapsedMillis elapsedTime; // declare global if you don't want it reset every time loop runs
 
 #define  BAUD_RATE         115200
 
-#define  ROWS              3
-#define  COLS              3
+#define  ROWS              3           // define how many rows on the matrix sensor
+#define  COLS              3           // define how many columns on the matrix sensor
 #define  PAYLOAD_SIZE      ROWS*COLS*2 // bytes expected to be received by the master I2C master
-#define  LED_PIN           13
-// #define  I2C_SLAVE_START   33
-#define  FRAME_RATE        30
-#define  DIL_SWITCH        7
+#define  LED_PIN           13          // define the LED pin
+#define  FRAME_RATE        5           // elapsed time between each sensor reading
+#define  DIL_SWITCH        7           // number of switchis on the DIL-switch
 
-byte  NODE_ADDRESS  =      0;  // set a unique address for each I2C slave node
-
+byte  NODE_ADDRESS  =      0;          // set a unique address for each I2C slave node
 byte incomingByte = 0;
 byte nodePayload[ PAYLOAD_SIZE ];
 
@@ -32,18 +30,19 @@ const int dilSwitch[ DIL_SWITCH ] = {
 
 // Dig pins array
 const int rowPins[ ROWS ] = {
-  6, 7, 8
+  8, 7, 6
+  // 6, 7, 8
 };
 
 // Analog pins array
 const int columnPins[ COLS ] = {
   A1, A2, A3
+  // A3, A2, A1
 };
 
 unsigned long lastFrameTime = 0;
 int value = 0;
 
-boolean RUN = false;
 boolean toggleLed = false;
 boolean USB_TRANSMIT = false;
 boolean DEBUG_NODE_ADDRESS = false;
@@ -66,50 +65,41 @@ void setup() {
     pinMode( rowPins[ i ], INPUT );    // Set rows pins in high-impedance state
   }
 
-  blinkBlink( 15 );
+  blinkBlink( 21 );
 }
 
 //////////////////////////////////////////////////////////// BOUCLE PRINCIPALE
 void loop() {
-  /*
-   if ( Wire.available() > 0 ) {
-      incomingByte = Wire.read();
-     if ( incomingByte == I2C_SLAVE_START );
-     digitalWrite( LED_PIN, HIGH );
-     RUN = true;
-   }
-  */
 
-  // if ( ( millis() - lastFrameTime ) >= FRAME_RATE ) {
-  if ( elapsedTime >= FRAME_RATE ) {
+  for ( int row = 0; row < ROWS; row++ ) {
+    // Set row pin as output (+3V)
+    pinMode( rowPins[ row ], OUTPUT );
+    digitalWrite( rowPins[ row ], HIGH );
 
-    // lastFrameTime = millis();
-    elapsedTime = 0;              // reset the counter to 0 so the counting starts over...
+    for ( int column = 0; column < COLS; column++ ) {
 
-    for ( int row = 0; row < ROWS; row++ ) {
-      // Set row pin as output (+3V)
-      pinMode( rowPins[ row ], OUTPUT );
-      digitalWrite( rowPins[ row ], HIGH );
+      if ( elapsedTime >= FRAME_RATE ) {
+        elapsedTime = 0;              // reset the counter to 0 so the counting starts over...
 
-      for ( int column = 0; column < COLS; column++ ) {
+        // int sensorID = row * COLS + column;
+        // sensorID = sensorID * 2;
 
-        int sensorID = row * COLS + column;
+        int sensorID = column * ROWS + row;
         sensorID = sensorID * 2;
 
         value = analogRead( columnPins[ column ] );
-        // value = 1023; // use to DEBUG
 
         nodePayload[ sensorID ] = value & B01111111;                // lowByte
         nodePayload[ sensorID + 1 ] = ( value >> 7 ) & B00000111;   // highByte
 
         if ( USB_TRANSMIT ) Serial.print( value ), Serial.print( '\t' );
       }
-      // Set row pin in high-impedance state
-      pinMode( rowPins[ row ], INPUT );
-      if ( USB_TRANSMIT ) Serial.println();
     }
+    // Set row pin in high-impedance state
+    pinMode( rowPins[ row ], INPUT );
     if ( USB_TRANSMIT ) Serial.println();
   }
+  if ( USB_TRANSMIT ) Serial.println();
 }
 
 // function that executes whenever data is requested by master
@@ -121,14 +111,12 @@ void requestEvent() {
 void blinkBlink( int times ) {
   for ( int i = 0; i < times; i++ ) {
     digitalWrite( LED_PIN, toggleLed );
-    delay( 80 );
+    delay( 60 );
     toggleLed = !toggleLed;
   }
 }
 
 void setNodeID() {
-
-  Serial.println("START");
 
   for ( int i = 0; i < DIL_SWITCH; i++) {
 

@@ -13,7 +13,7 @@ class Selector {
 
   // INIT
   Selector() {
-    n = 6;
+    n = 16;
     size = 22;
     SPACE = 10;
     buttonArray = new boolean [ n ];
@@ -41,7 +41,7 @@ class Selector {
           buttonArray[ i ] = true;
           buttonArray[ selectorVal ] = false;
           selectorVal = i;
-          println( "SELECTOR SET TO : " +selectorVal );
+          println( "SELECTOR SET TO : " + selectorVal );
         }
       }
     }
@@ -94,12 +94,12 @@ class sensorMatrix {
         int sensorID = ( idY * ROWS + idX );
 
         switch ( MODE ) {
-          
+
         case 'R':
           if ( storedValue[ id ][ idX ][ idY ] >= THRESHOLD && toggle[ idX ][ idY ] == false ) {
             toggle[ idX ][ idY ] = true;
             label[ idX ][ idY ] = selectorVal;
-            println ( "REC : " + sensorID + " " + id + " " + label[ idX ][ idY ] );
+            println ( "REC : " + 1 + " " + label[ idX ][ idY ] + " " + 127 );
           }
           if ( storedValue[ id ][ idX ][ idY ] < THRESHOLD && toggle[ idX ][ idY ] == true ) {
             toggle[ idX ][ idY ] = false;
@@ -108,17 +108,42 @@ class sensorMatrix {
 
         case 'P':
 
+          // If there is nothing happen : send the STOP midi note
+          if ( curentMillis - lastMillis > STOP_TIME && toggleStop == true ) {
+            toggleStop = false;
+
+            // STOP //////////////////////////////////////////////////
+            try {
+              println ( "STOP : " + 1 + " " + 66 + " " + 127 ); // Print out the Midi noteON
+              outgoing.sendNoteOn( 1, 66, 127 ); // Send a Midi noteON
+            }
+            catch ( Exception e ) {
+              println ( "MIDI_ERROR : " + 1 + " " + 66 + " " + 127 );
+            }
+          }
+
           if ( storedValue[ id ][ idX ][ idY ] >= THRESHOLD && toggle[ idX ][ idY ] == false ) {
             toggle[ idX ][ idY ] = true;
+            lastMillis = curentMillis;
+            if ( toggleStop == false ) {
+              // START //////////////////////////////////////////////////
+              try {
+                println ( "START : " + 1 + " " + 67 + " " + 127 ); // Print out the Midi noteON
+                outgoing.sendNoteOn( 1, 67, 127 ); // Send a Midi noteON
+              }
+              catch ( Exception e ) {
+                println ( "MIDI_ERROR : " + 1 + " " + 67 + " " + 127 );
+              }
+            }
+            toggleStop = true;
 
             if ( label[ idX ][ idY ] != -1 ) {
               try {
-                outgoing.sendNoteOn( sensorID, id, label[ idX ][ idY ] ); // Send a Midi noteON
-                // outgoing.sendControllerChange( sensorID, id, label[ idX ][ idY ] ); // Send a Midi Control Change
-                println ( "PLAY : " + sensorID + " " + id + " " + label[ idX ][ idY ] ); // print the Midi noteON
+                println ( "PLAY : " + 1 + " " + label[ idX ][ idY ] + " " + 127 ); // Print out the Midi noteON
+                outgoing.sendNoteOn( 1, label[ idX ][ idY ], 127 ); // Send a Midi noteON
               }
               catch ( Exception e ) {
-                println ( "MIDI_ERROR : " + sensorID + " " + id + " " + label[ idX ][ idY ] );
+                println ( "MIDI_ERROR : " + 1 + " " + label[ idX ][ idY ] + " " + 127 );
               }
             }
           }
@@ -127,8 +152,8 @@ class sensorMatrix {
 
             if ( label[ idX ][ idY ] != -1 ) {
               try {
-                // outgoing.sendNoteOff( sensorID, id, label[ idX ][ idY ] ); // Send a Midi noteOFF
-                // println ( "STOP : " + sensorID + " " + id + " " + label[ idX ][ idY ] ); // print the Midi noteOFF
+                // outgoing.sendNoteOff( 1, label[ idX ][ idY ], 0 ); // Send a Midi noteOFF
+                // println ( "STOP : " + 1 + " " + label[ idX ][ idY ] + " " + 0 ); // print the Midi noteOFF
               }
               catch ( Exception e ) {
                 println ( "MIDI_ERROR : " + sensorID + " " + id + " " + label[ idX ][ idY ] );
@@ -205,25 +230,38 @@ class sensorMatrix {
 
         if ( Mx > pX && Mx < pX+PIX_SIZE && My > pY && My < pY+PIX_SIZE ) {
 
-          int sensorID = ( idY * ROWS + idX );
+          // int sensorID = ( idY * ROWS + idX );
 
           switch ( MODE ) {
 
           case 'R':
-            label[ idX ][ idY ]++;
-            label[ idX ][ idY ] = label[ idX ][ idY ] % 6;
-            println ( "MOUSE CLIC : " + sensorID + " " + id + " " + label[ idX ][ idY ] );
+            label[ idX ][ idY ] = selectorVal;
+            println ( "MOUSE CLIC : " + 1 + " " + label[ idX ][ idY ] + " " + 127 );
             break;
 
           case 'P':
             if ( label[ idX ][ idY ] != -1 ) {
+
+              lastMillis = curentMillis;
+
+              if ( toggleStop == false ) {
+                // START //////////////////////////////////////////////////
+                try {
+                  println ( "START : " + 1 + " " + 67 + " " + 127 ); // Print out the Midi noteON
+                  outgoing.sendNoteOn( 1, 67, 127 ); // Send a Midi noteON
+                }
+                catch ( Exception e ) {
+                  println ( "MIDI_ERROR : " + 1 + " " + 67 + " " + 127 );
+                }
+              }
+              toggleStop = true;
+
               try {
-                println ( "MOUSE PLAY : " + sensorID + " " + id + " " + label[ idX ][ idY ] );
-                outgoing.sendNoteOn( sensorID, id, label[ idX ][ idY ] ); // Send a Midi noteON
-                // outgoing.sendControllerChange( sensorID, id, label[ idX ][ idY ] ); // Send a Midi Control Change
+                println ( "MOUSE PLAY : " + 1 + " " + label[ idX ][ idY ] + " " + 127 );
+                outgoing.sendNoteOn( 1, label[ idX ][ idY ], 127 ); // Send a Midi noteON
               }
               catch ( Exception e ) {
-                println ( "MIDI ERROR : " + sensorID + " " + id + " " + label[ idX ][ idY ] );
+                println ( "MIDI ERROR : " + 1 + " " + label[ idX ][ idY ] + " " + 127 );
               }
             }
             toggle[ idX ][ idY ] = true;
@@ -302,11 +340,11 @@ void play() {
 }
 /////////////////////////////////////////////////////////
 void howTo( ) {
-  
+
   int Xpos = X_SCREN_SIZE/4;
   int Ypos = Y_SCREN_SIZE/3;
   int vSpace = 25;
-  
+
   background( 200 );
   noStroke();
   rectMode( CENTER );

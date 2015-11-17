@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <CODES>
-	<code  X_MATRIX="5"> </code>
+	<code  X_MATRIX="8"> </code>
 	<code  Y_MATRIX="5"> </code>
 	<code  PIX_SIZE="30"> </code>
 	<code  PADDING="3"> </code>
 	<code  MARGIN="20"> </code>
 	<code  OFFSET="50"> </code>
-	<code  THRESHOLD="300"> </code>
+	<code  THRESHOLD="900"> </code>
 	<code  FILE="saved.csv"> </code>
 </CODES>

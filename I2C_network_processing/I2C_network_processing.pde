@@ -1,6 +1,7 @@
 // Maurin Donneaud : maurin@datapaulette.org
 // use Processing 3.0
 // 
+
 import processing.serial.*;
 import controlP5.*;
 import themidibus.*;
@@ -28,6 +29,10 @@ int DEVICES =        0;
 int posX =           0;  // X matrix position
 int posY =           0;  // Y matrix position
 int menuXsize =      256;
+long curentMillis = 0;
+long lastMillis = 0;
+boolean toggleStop = true;
+int STOP_TIME = 10000;
 
 PFont font;
 Table table;
@@ -37,23 +42,32 @@ Selector selector = new Selector( );
 
 int[][] colors = {
  { 250, 250, 250 },
- { 0, 150, 150 }, 
- { 100, 10, 180 }, 
- { 0, 220, 50 }, 
+ { 0, 150, 150 },
+ { 100, 10, 15 },
+ { 0, 220, 50 },
  { 255, 250, 0 }, 
- { 255, 0, 200 }
+ { 255, 0, 200 },
+ { 80, 10, 130 }, 
+ { 44, 200, 120 }, 
+ { 80, 20, 200 }, 
+ { 33, 130, 20 }, 
+ { 77, 179, 150 },
+ { 12, 10, 50 }, 
+ { 15, 30, 110 }, 
+ { 225, 60, 50 }, 
+ { 180, 30, 180 }, 
+ { 203, 22, 10 }
 };
- 
+
 sensorMatrix sMatrix[];
 
 char MODE = 'H';
 boolean DISPLAY_MATRIX = false;
-boolean DEBUG_SENSOR_VALUES = true;
+boolean DEBUG_SENSOR_VALUES = false; // cool
 boolean DEBUG_SENSOR_ID = false;
 boolean DEBUG_SENSOR_POS = false;
 boolean DEBUG_SWITCH = false;
 boolean DEBUG_CONFIG = false;
-// boolean MIDI = true;
 
 /////////////////////////////////////////////// SETUP
 void setup() {
@@ -97,7 +111,9 @@ void setup() {
 
 /////////////////// LOOP
 void draw() {
-  
+   
+  curentMillis = millis();
+   
   if ( MODE == 'R' ) background( 150, 10, 100 );
   if ( MODE == 'P' ) background( 10, 189, 60 );
   
