@@ -31,8 +31,11 @@ int posY =           0;  // Y matrix position
 int menuXsize =      256;
 long curentMillis = 0;
 long lastMillis = 0;
+long lastDebounceMillis = 0;
+
 boolean toggleStop = true;
-int STOP_TIME = 10000;
+int STOP_TIME = 10000;  
+int DEBOUNCE_TIME = 30; // Ajuster le temps (pas trop petit et pas trop grand : 500 - 2000)
 
 PFont font;
 Table table;
@@ -68,7 +71,7 @@ boolean DEBUG_SENSOR_ID = false;
 boolean DEBUG_SENSOR_POS = false;
 boolean DEBUG_SWITCH = false;
 boolean DEBUG_CONFIG = false;
-
+  
 /////////////////////////////////////////////// SETUP
 void setup() {
 

@@ -111,8 +111,6 @@ class sensorMatrix {
           // If there is nothing happen : send the STOP midi note
           if ( curentMillis - lastMillis > STOP_TIME && toggleStop == true ) {
             toggleStop = false;
-
-            // STOP //////////////////////////////////////////////////
             try {
               println ( "STOP : " + 1 + " " + 66 + " " + 127 ); // Print out the Midi noteON
               outgoing.sendNoteOn( 1, 66, 127 ); // Send a Midi noteON
@@ -137,7 +135,8 @@ class sensorMatrix {
             }
             toggleStop = true;
 
-            if ( label[ idX ][ idY ] != -1 ) {
+            if ( label[ idX ][ idY ] != -1 && curentMillis - lastDebounceMillis > DEBOUNCE_TIME) {
+              lastDebounceMillis = curentMillis;
               try {
                 println ( "PLAY : " + 1 + " " + label[ idX ][ idY ] + " " + 127 ); // Print out the Midi noteON
                 outgoing.sendNoteOn( 1, label[ idX ][ idY ], 127 ); // Send a Midi noteON
