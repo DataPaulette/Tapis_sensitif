@@ -10,6 +10,8 @@ This folder include à processing sketch allowing mapping to trigger MIDI notes.
 The following contributed libraries are needed :
  - theMidiBus
  - controlP5
+(Linux) To alow non-root users permission to use the Teensy device you will nead to install udev rule file
+ - http://www.pjrc.com/teensy/td_download.html
 
 #/Tapis_sensitif/I2C_matrix_MASTER/
 https://www.arduino.cc/en/Main/Software
