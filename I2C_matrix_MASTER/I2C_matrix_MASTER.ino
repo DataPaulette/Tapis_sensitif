@@ -44,7 +44,7 @@ void loop() {
 
   if ( RUN ) {
     for ( byte i = 0; i < DEVICES; i++ ) {
-      Wire.requestFrom( i, PAYLOAD_SIZE );    // request 32 bytes from slave device #0, 1, ...
+      Wire.requestFrom( i, PAYLOAD_SIZE );    // request 18 bytes from slave device #0, #1, ...
 
       // slave may send less than requested
       while ( Wire.available() > 0 ) {

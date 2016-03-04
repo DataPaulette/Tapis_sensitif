@@ -1,6 +1,6 @@
 
 ////////// Setup the menu
-void setupMenu( DropdownList ddl ) {
+void setupMenu( ScrollableList ddl ) {
   String available_output[];
   int itemHeight = 30;
   int itemWidth = 250;
@@ -9,7 +9,7 @@ void setupMenu( DropdownList ddl ) {
   ddl.setItemHeight( itemHeight );
 
   if ( ddl == p1 ) {
-    ddl.setPosition( X_SCREN_SIZE - menuXsize, 0);
+    ddl.setPosition( 0, 0); ////////////////////////////////////////////// ERROR
     ddl.setCaptionLabel( "USB PORT" );
     for ( int i=0; i<Serial.list ().length; i++ ) {
       String portName = Serial.list()[ i ];
@@ -19,7 +19,7 @@ void setupMenu( DropdownList ddl ) {
   }
 
   if ( ddl == p2 ) {
-    ddl.setPosition( X_SCREN_SIZE - menuXsize*2, 0);
+    ddl.setPosition( X_SCREN_SIZE - menuXsize, 0); ////////////////////////////////////////////// ERROR
     ddl.setCaptionLabel( "MIDI PORT" );
     available_output = outgoing.availableOutputs(); // Returns an array of available output devices
     for ( int i=0; i<available_output.length; i++ ) {

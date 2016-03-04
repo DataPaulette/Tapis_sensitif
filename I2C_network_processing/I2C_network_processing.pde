@@ -8,8 +8,8 @@ import themidibus.*;
 
 Serial               myPort;        // Create object from menu class
 ControlP5            cp5;           // Create object from menu class
-DropdownList         p1;            // Create object from menu class
-DropdownList         p2;            // Create object from menu class
+ScrollableList       p1;            // Create object from menu class
+ScrollableList       p2;            // Create object from menu class
 MidiBus              outgoing;      // Create object from menu class
 
 int X_SCREN_SIZE =   0;
@@ -34,7 +34,7 @@ long lastMillis = 0;
 long lastDebounceMillis = 0;
 
 boolean toggleStop = true;
-int STOP_TIME = 10000;  
+int STOP_TIME = 10000;
 int DEBOUNCE_TIME = 30; // Ajuster le temps (pas trop petit et pas trop grand : 500 - 2000)
 
 PFont font;
@@ -99,9 +99,9 @@ void setup() {
   textFont( font );
 
   cp5 = new ControlP5( this );
-  p1 = cp5.addDropdownList( "usbPort" );
+  p1 = cp5.addScrollableList( "usbPort" );
   setupMenu( p1 );
-  p2 = cp5.addDropdownList( "midiPort" );
+  p2 = cp5.addScrollableList( "midiPort" );
   setupMenu( p2 );
 
   sMatrix = new sensorMatrix[ DEVICES ]; // Tableau de matrices de capteurs
