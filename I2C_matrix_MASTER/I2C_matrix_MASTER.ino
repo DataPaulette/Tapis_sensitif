@@ -1,6 +1,6 @@
 // Maurin Donneaud : maurin@datapaulette.org
 // 4x4 e-textile matrix for Arduino I2C bus based
-// Master is Teensy 2.0 / Pin 6 ( SDA ), Pin 5 ( SCL )
+// Master is Teensy 2.0 / Pin 6 ( SDA ), Pin 5 ( SCL ) see : https://www.pjrc.com/teensy/td_libs_Wire.html
 // licence GPL V2.0
 
 #include <Wire.h>

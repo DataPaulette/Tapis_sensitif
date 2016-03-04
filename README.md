@@ -14,6 +14,8 @@ The following contributed libraries are needed :
 #/Tapis_sensitif/I2C_matrix_MASTER/
 https://www.arduino.cc/en/Main/Software
 This folder include the Arduino code for the master device plugged on a computer via USB port.
+You will also need to install the teensy plugin for Arduino :
+https://www.pjrc.com/teensy/teensyduino.html
 
 #/Tapis_sensitif/I2C_matrix_SLAVE/
 This folder include the Arduino code for each sensitive slave device that communicate over a four wire I2C bus.
